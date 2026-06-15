@@ -20,6 +20,9 @@
   /* Surfaces / backgrounds */
   --background-color: var(--oc-bg);
   --content-bg: var(--oc-background-base);
+  /* Playground panel surfaces (previously undefined -> now theme-aware) */
+  --bg-primary: var(--oc-bg);
+  --bg-secondary: var(--oc-background-mantle);
 
   /* Text colors */
   --text-primary: var(--oc-text);
