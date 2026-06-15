@@ -14,6 +14,7 @@ import {
   setLastExpandedHeight
 } from '@slices/playground';
 import { getItemType, getItemName, getHttpMethod, isHttpRequest, isFolder } from '../../../utils/schemaHelpers';
+import { getMethodColorVar } from '../../../theme/methodColors';
 
 interface DrawerDragBarProps {
   isCollapsed: boolean;
@@ -25,16 +26,6 @@ const COLLAPSED_HEIGHT = 41;
 const COLLAPSE_THRESHOLD = () => window.innerHeight * 0.4;
 const getMaxHeight = () => window.innerHeight;
 const getDefaultHeight = () => window.innerHeight * 0.9;
-
-const methodColors: Record<string, string> = {
-  'GET': 'var(--oc-request-methods-get)',
-  'POST': 'var(--oc-request-methods-post)',
-  'PUT': 'var(--oc-request-methods-put)',
-  'PATCH': 'var(--oc-request-methods-patch)',
-  'DELETE': 'var(--oc-request-methods-delete)',
-  'HEAD': 'var(--oc-request-methods-head)',
-  'OPTIONS': 'var(--oc-request-methods-options)'
-};
 
 const DrawerDragBar: React.FC<DrawerDragBarProps> = ({ isCollapsed, selectedItem, onClose }) => {
   const dispatch = useAppDispatch();
@@ -143,7 +134,7 @@ const DrawerDragBar: React.FC<DrawerDragBarProps> = ({ isCollapsed, selectedItem
             fontWeight: 500
           }}>
             <span style={{
-              color: (itemType === 'http' && httpMethod && methodColors[httpMethod]) || 'var(--oc-colors-text-muted)',
+              color: itemType === 'http' && httpMethod ? getMethodColorVar(httpMethod) : 'var(--oc-colors-text-muted)',
               fontWeight: 600,
               fontSize: '11px'
             }}>

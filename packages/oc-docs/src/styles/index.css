@@ -20,8 +20,10 @@
   /* Surfaces / backgrounds */
   --background-color: var(--oc-bg);
   --content-bg: var(--oc-background-base);
-  /* Playground panel surfaces (previously undefined -> now theme-aware) */
-  --bg-primary: var(--oc-bg);
+  /* Playground panel surfaces (previously undefined -> now theme-aware).
+     --bg-primary maps to the surface-scale base (same value as --oc-bg) so the
+     legacy alias and direct --oc-background-base usages mean one concept. */
+  --bg-primary: var(--oc-background-base);
   --bg-secondary: var(--oc-background-mantle);
 
   /* Text colors */
