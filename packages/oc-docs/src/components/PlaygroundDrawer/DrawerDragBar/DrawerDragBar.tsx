@@ -27,13 +27,13 @@ const getMaxHeight = () => window.innerHeight;
 const getDefaultHeight = () => window.innerHeight * 0.9;
 
 const methodColors: Record<string, string> = {
-  'GET': '#16a34a',
-  'POST': '#2563eb',
-  'PUT': '#f97316',
-  'PATCH': '#8b5cf6',
-  'DELETE': '#dc2626',
-  'HEAD': '#6b7280',
-  'OPTIONS': '#6b7280'
+  'GET': 'var(--oc-request-methods-get)',
+  'POST': 'var(--oc-request-methods-post)',
+  'PUT': 'var(--oc-request-methods-put)',
+  'PATCH': 'var(--oc-request-methods-patch)',
+  'DELETE': 'var(--oc-request-methods-delete)',
+  'HEAD': 'var(--oc-request-methods-head)',
+  'OPTIONS': 'var(--oc-request-methods-options)'
 };
 
 const DrawerDragBar: React.FC<DrawerDragBarProps> = ({ isCollapsed, selectedItem, onClose }) => {
@@ -143,7 +143,7 @@ const DrawerDragBar: React.FC<DrawerDragBarProps> = ({ isCollapsed, selectedItem
             fontWeight: 500
           }}>
             <span style={{
-              color: (itemType === 'http' && httpMethod && methodColors[httpMethod]) || '#6b7280',
+              color: (itemType === 'http' && httpMethod && methodColors[httpMethod]) || 'var(--oc-colors-text-muted)',
               fontWeight: 600,
               fontSize: '11px'
             }}>
