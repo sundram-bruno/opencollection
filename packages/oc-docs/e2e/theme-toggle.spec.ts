@@ -5,8 +5,11 @@ test('toggle switches data-theme and persists across reload', async ({ page }) =
   const html = page.locator('html');
   await expect(html).toHaveAttribute('data-theme', 'light');
 
-  await page.getByRole('button', { name: /toggle light\/dark theme/i }).click();
+  // Light mode shows "Switch to dark theme"; clicking flips to dark.
+  await page.getByRole('button', { name: /switch to dark theme/i }).click();
   await expect(html).toHaveAttribute('data-theme', 'dark');
+  // Now in dark mode the button offers "Switch to light theme".
+  await expect(page.getByRole('button', { name: /switch to light theme/i })).toBeVisible();
 
   await page.reload();
   await expect(html).toHaveAttribute('data-theme', 'dark');

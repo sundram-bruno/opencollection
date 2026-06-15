@@ -144,28 +144,28 @@ const Sidebar: React.FC<SidebarProps> = () => {
         )}
       </SidebarItems>
       
-      {/* Theme toggle */}
-      <div style={{ padding: '6px 8px' }}>
-        <ThemeToggle />
-      </div>
-
-      {/* OpenCollection Logo */}
-      <div className="p-2" style={{ borderColor: 'var(--border-color)' }}>
-        <a 
-          href="https://opencollection.com" 
-          target="_blank" 
+      {/* Footer: Powered-by logo (left) + theme toggle (right) */}
+      <div
+        className="p-2"
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}
+      >
+        <a
+          href="https://opencollection.com"
+          target="_blank"
           rel="noopener noreferrer"
           className="block opacity-50 hover:opacity-70 transition-opacity"
+          style={{ minWidth: 0 }}
         >
-          <img 
-            src={OpenCollectionLogo} 
-            alt="OpenCollection" 
-            className="w-full max-w-[140px] mx-auto"
-            style={{ 
+          <img
+            src={OpenCollectionLogo}
+            alt="OpenCollection"
+            className="max-w-[140px]"
+            style={{
               filter: 'grayscale(100%)'
             }}
           />
         </a>
+        <ThemeToggle />
       </div>
     </SidebarContainer>
   );
