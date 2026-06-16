@@ -40,7 +40,6 @@ const HarnessApp: React.FC = () => (
     <Topbar
       collectionName="Hotel Booking API"
       version="v1.0.0"
-      logo={<span data-testid="brand-logo">HB</span>}
       searchSlot={<SearchSlot />}
       envSwitcherSlot={<EnvSwitcherSlot />}
       openInBrunoHref="bruno://app/collection/import/git?url=https%3A%2F%2Fexample.com%2Frepo.git"

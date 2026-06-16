@@ -4,6 +4,9 @@ export { default as OpenInBrunoButton } from './OpenInBrunoButton';
 export type { OpenInBrunoButtonProps } from './OpenInBrunoButton';
 export { default as Brand } from './Brand';
 export type { BrandProps } from './Brand';
+export { default as InitialsAvatar } from './InitialsAvatar';
+export type { InitialsAvatarProps } from './InitialsAvatar';
+export { getInitials } from './getInitials';
 export { buildBrunoDeepLink } from './buildBrunoDeepLink';
 export {
   useTopbarLayout,

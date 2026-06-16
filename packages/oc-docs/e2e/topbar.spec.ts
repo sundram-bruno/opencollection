@@ -39,6 +39,16 @@ test.describe('Topbar — mounted app', () => {
     expect(ctaBox!.x).toBeGreaterThan(brandBox!.x + brandBox!.width + 100);
   });
 
+  test('brand shows the initials avatar derived from the collection name', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/');
+
+    // sampleCollection name is "Bruno Testbench" → "BT".
+    const avatar = page.getByTestId('brand-initials');
+    await expect(avatar).toBeVisible();
+    await expect(avatar).toHaveText('BT');
+  });
+
   test('Open-in-Bruno CTA deep-links via bruno://', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');

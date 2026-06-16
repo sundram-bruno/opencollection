@@ -40,8 +40,8 @@ export const StyledWrapper = styled.header`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     flex: none;
     overflow: hidden;
     border-radius: var(--oc-border-radius-base);

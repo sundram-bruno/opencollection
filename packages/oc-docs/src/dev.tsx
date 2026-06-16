@@ -30,7 +30,6 @@ const DevApp: React.FC = () => {
       <div style={{ height: '100vh', width: '100vw' }}>
         <OpenCollection
           collection={sampleCollectionYaml}
-          logo="/src/assets/opencollection-logo.svg"
           gitCollectionUrl="https://github.com/usebruno/bruno-testbench.git"
         />
       </div>
