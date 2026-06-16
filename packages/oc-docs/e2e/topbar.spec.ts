@@ -1,0 +1,98 @@
+import { test, expect } from '@playwright/test';
+
+test.use({ colorScheme: 'light' });
+
+const DESKTOP = { width: 1280, height: 900 };
+const TABLET = { width: 820, height: 1024 };
+const MOBILE = { width: 390, height: 800 };
+
+test.describe('Topbar — mounted app', () => {
+  test('shows brand (name + version) and a pinned bar', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/');
+
+    const header = page.locator('header.oc-topbar');
+    await expect(header).toBeVisible();
+    await expect(header.locator('.oc-topbar__brand-name')).toContainText('Bruno Testbench');
+    await expect(header.locator('.oc-topbar__brand-version')).toContainText('1.0.0');
+
+    // Sticky: header stays at the top after the page scrolls.
+    await page.mouse.wheel(0, 600);
+    const box = await header.boundingBox();
+    expect(box?.y ?? -1).toBeLessThanOrEqual(1);
+  });
+
+  test('Open-in-Bruno CTA deep-links via bruno://', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/');
+
+    const cta = page.getByTestId('open-in-bruno');
+    await expect(cta).toBeVisible();
+    const href = await cta.getAttribute('href');
+    expect(href).toMatch(/^bruno:\/\/app\/collection\/import\/git\?url=/);
+  });
+
+  test('mobile condenses: hamburger appears, CTA stays as an icon', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/');
+
+    await expect(page.getByRole('button', { name: /toggle sidebar/i })).toBeVisible();
+    const cta = page.getByTestId('open-in-bruno');
+    await expect(cta).toBeVisible();
+    await expect(cta).toHaveClass(/is-icon/);
+
+    // No horizontal overflow.
+    const scrollW = await page.evaluate(() => document.documentElement.scrollWidth);
+    expect(scrollW).toBeLessThanOrEqual(MOBILE.width + 1);
+  });
+});
+
+test.describe('Topbar — harness (slots filled)', () => {
+  test('desktop renders search + env slots inline', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/topbar-harness.html');
+
+    await expect(page.getByTestId('search-slot-input')).toBeVisible();
+    await expect(page.getByTestId('env-switcher-slot')).toBeVisible();
+    await expect(page.getByTestId('open-in-bruno')).toHaveClass(/is-full/);
+  });
+
+  test('tablet keeps env slot inline and CTA icon-only, no hamburger', async ({ page }) => {
+    await page.setViewportSize(TABLET);
+    await page.goto('/topbar-harness.html');
+
+    await expect(page.getByTestId('env-switcher-slot')).toBeVisible();
+    await expect(page.getByTestId('open-in-bruno')).toHaveClass(/is-icon/);
+    await expect(page.getByRole('button', { name: /toggle sidebar/i })).toHaveCount(0);
+  });
+
+  test('mobile: search icon expands the search row', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/topbar-harness.html');
+
+    // Inline search is hidden on mobile until the toggle is pressed.
+    await expect(page.getByTestId('search-slot-input')).toHaveCount(0);
+    await page.getByRole('button', { name: /^search$/i }).click();
+    await expect(page.getByTestId('search-slot-input')).toBeVisible();
+  });
+
+  test('mobile: overflow popover hosts the env-switcher slot', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/topbar-harness.html');
+
+    await expect(page.getByTestId('env-switcher-slot')).toHaveCount(0);
+    await page.getByRole('button', { name: /more options/i }).click();
+    await expect(page.getByTestId('env-switcher-slot')).toBeVisible();
+  });
+
+  test('mobile: hamburger invokes onToggleSidebar', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/topbar-harness.html');
+
+    await page.getByRole('button', { name: /toggle sidebar/i }).click();
+    const calls = await page.evaluate(
+      () => (window as unknown as { __toggleSidebarCalls?: number }).__toggleSidebarCalls
+    );
+    expect(calls).toBe(1);
+  });
+});

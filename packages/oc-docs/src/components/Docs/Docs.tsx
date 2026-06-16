@@ -3,12 +3,10 @@ import type { OpenCollection as OpenCollectionCollection } from '@opencollection
 import type { StructuredText } from '@opencollection/types/common/description';
 import Sidebar from './Sidebar/Sidebar';
 import Item from './Item/Item';
-import FetchInBrunoButton from './Sidebar/FetchInBrunoButton';
 import { getItemId, generateSafeId } from '../../utils/itemUtils';
 import { isFolder, getItemName } from '../../utils/schemaHelpers';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { selectSelectedItemId, selectItem } from '../../store/slices/docs';
-import { selectGitCollectionUrl } from '../../store/slices/app';
 import { useMarkdownRenderer } from '../../hooks';
 
 interface DocsProps {
@@ -24,7 +22,6 @@ const Docs: React.FC<DocsProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const selectedItemId = useAppSelector(selectSelectedItemId);
-  const gitCollectionUrl = useAppSelector(selectGitCollectionUrl);
   const md = useMarkdownRenderer();
   const isInitialMount = useRef(true);
 
@@ -141,14 +138,6 @@ const Docs: React.FC<DocsProps> = ({
               >
                 {docsCollection.info.name}
               </h1>
-              {gitCollectionUrl && (
-                <a
-                  href={`bruno://app/collection/import/git?url=${encodeURIComponent(gitCollectionUrl)}`}
-                  className="flex-shrink-0"
-                >
-                  <FetchInBrunoButton />
-                </a>
-              )}
             </div>
           )}
 
