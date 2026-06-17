@@ -2,10 +2,13 @@ import React from 'react';
 import InitialsAvatar from './InitialsAvatar';
 
 export interface BrandProps {
+  /** Used for the initials avatar + accessible title; not shown as the label. */
   collectionName: string;
-  version?: string;
   logo?: React.ReactNode;
 }
+
+/** Fixed product label shown beside the avatar (collection name lives in the body). */
+const PRODUCT_LABEL = 'Docs';
 
 /**
  * Renders an arbitrary logo node. A string is treated as an image src so
@@ -19,13 +22,7 @@ const renderLogo = (logo: React.ReactNode, collectionName: string): React.ReactN
   return logo;
 };
 
-/** Display version with a leading "v" (idempotent: "1.0.0" → "v1.0.0", "v2" → "v2"). */
-const formatVersion = (version: string): string => {
-  const trimmed = version.trim();
-  return /^v/i.test(trimmed) ? trimmed : `v${trimmed}`;
-};
-
-const Brand: React.FC<BrandProps> = ({ collectionName, version, logo }) => {
+const Brand: React.FC<BrandProps> = ({ collectionName, logo }) => {
   const hasLogo = logo != null && logo !== '';
   return (
     <div className="oc-topbar__brand">
@@ -33,11 +30,8 @@ const Brand: React.FC<BrandProps> = ({ collectionName, version, logo }) => {
       <span className="oc-topbar__brand-logo">
         {hasLogo ? renderLogo(logo, collectionName) : <InitialsAvatar collectionName={collectionName} />}
       </span>
-      <span className="oc-topbar__brand-text">
-        <span className="oc-topbar__brand-name" title={collectionName}>
-          {collectionName}
-        </span>
-        {version && <span className="oc-topbar__brand-version">{formatVersion(version)}</span>}
+      <span className="oc-topbar__brand-name" title={collectionName}>
+        {PRODUCT_LABEL}
       </span>
     </div>
   );

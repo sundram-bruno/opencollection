@@ -27,13 +27,18 @@ export interface TopbarProps {
  * No routing, data fetching, or store access — everything arrives via props.
  * Composes small reusable subcomponents and exposes two slots (search,
  * env-switcher) that render whatever node is passed and degrade gracefully
- * when empty. Responsive layout: full bar (desktop), condensed with icon-only
- * CTA (tablet), single condensed row with hamburger + search-expand + overflow
- * popover (mobile).
+ * when empty. Responsive layout:
+ * - desktop (>=1024): full bar — brand · centered search · env switcher · Open-in-Bruno.
+ * - tablet (768-1023): hamburger · brand · search icon · env switcher inline (no CTA).
+ * - mobile (<768): hamburger · brand · search icon · overflow popover (env) (no CTA).
+ * Below desktop the search collapses to an icon that expands a full-width row,
+ * and Open-in-Bruno is hidden (the Bruno desktop app only runs on desktop).
+ *
+ * Note: `version` is accepted for cross-lane contract stability but is not
+ * rendered in the header — the version is shown in the page body.
  */
 const Topbar: React.FC<TopbarProps> = ({
   collectionName,
-  version,
   logo,
   searchSlot,
   envSwitcherSlot,
@@ -42,7 +47,7 @@ const Topbar: React.FC<TopbarProps> = ({
   onToggleSidebar,
 }) => {
   const mode = useTopbarLayout();
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const isMobile = mode === 'mobile';
   const isDesktop = mode === 'desktop';
@@ -50,11 +55,11 @@ const Topbar: React.FC<TopbarProps> = ({
   const hasSecondary = envSwitcherSlot != null;
   const hasCta = openInBrunoHref != null || onOpenInBruno != null;
 
-  // Collapse the revealed mobile search row when leaving the mobile layout,
-  // so it doesn't reappear (with stale aria state) on the next mobile resize.
+  // Collapse the revealed search row when entering the desktop layout, so it
+  // doesn't reappear (with stale aria state) the next time search collapses.
   useEffect(() => {
-    if (!isMobile) setMobileSearchOpen(false);
-  }, [isMobile]);
+    if (isDesktop) setSearchOpen(false);
+  }, [isDesktop]);
 
   const searchInner = <div className="oc-topbar__search-inner">{searchSlot}</div>;
 
@@ -67,23 +72,23 @@ const Topbar: React.FC<TopbarProps> = ({
           </IconButton>
         )}
 
-        <Brand collectionName={collectionName} version={version} logo={logo} />
+        <Brand collectionName={collectionName} logo={logo} />
 
-        {/* Flex-1 middle: inline search on tablet/desktop, else a spacer that
-            keeps the right-hand controls + CTA pinned to the right edge —
-            including when the search/env slots are empty. */}
-        {hasSearch && !isMobile ? (
+        {/* Flex-1 middle: inline search on desktop, else a spacer that keeps the
+            right-hand controls pinned to the right edge (search collapses to an
+            icon below desktop, and may be empty). */}
+        {hasSearch && isDesktop ? (
           <div className="oc-topbar__search">{searchInner}</div>
         ) : (
           <div className="oc-topbar__spacer" />
         )}
 
-        {/* Mobile search toggle reveals the full-width search row below. */}
-        {hasSearch && isMobile && (
+        {/* Below desktop: search toggle reveals the full-width search row below. */}
+        {hasSearch && !isDesktop && (
           <IconButton
             label="Search"
-            aria-expanded={mobileSearchOpen}
-            onClick={() => setMobileSearchOpen((prev) => !prev)}
+            aria-expanded={searchOpen}
+            onClick={() => setSearchOpen((prev) => !prev)}
           >
             <SearchIcon />
           </IconButton>
@@ -95,12 +100,13 @@ const Topbar: React.FC<TopbarProps> = ({
         )}
         {hasSecondary && isMobile && <MobileOverflow>{envSwitcherSlot}</MobileOverflow>}
 
-        {hasCta && (
-          <OpenInBrunoButton href={openInBrunoHref} onClick={onOpenInBruno} iconOnly={!isDesktop} />
+        {/* Open-in-Bruno is desktop-only — the Bruno desktop app isn't on tablet/mobile. */}
+        {isDesktop && hasCta && (
+          <OpenInBrunoButton href={openInBrunoHref} onClick={onOpenInBruno} />
         )}
       </div>
 
-      {hasSearch && isMobile && mobileSearchOpen && (
+      {hasSearch && !isDesktop && searchOpen && (
         <div className="oc-topbar__search-row">{searchInner}</div>
       )}
     </StyledWrapper>

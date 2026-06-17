@@ -25,9 +25,9 @@ describe('layoutModeForWidth', () => {
 });
 
 describe('showsHamburger', () => {
-  it('shows only on mobile (sidebar is inline on tablet/desktop)', () => {
+  it('shows below desktop (sidebar is a drawer on tablet + mobile)', () => {
     expect(showsHamburger('mobile')).toBe(true);
-    expect(showsHamburger('tablet')).toBe(false);
+    expect(showsHamburger('tablet')).toBe(true);
     expect(showsHamburger('desktop')).toBe(false);
   });
 });

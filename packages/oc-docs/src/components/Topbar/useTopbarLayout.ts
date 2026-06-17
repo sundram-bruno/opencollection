@@ -21,8 +21,11 @@ export const layoutModeForWidth = (width: number): TopbarLayoutMode => {
   return 'mobile';
 };
 
-/** Hamburger trigger only shows below the sidebar-inline breakpoint (mobile). */
-export const showsHamburger = (mode: TopbarLayoutMode): boolean => mode === 'mobile';
+/**
+ * Hamburger trigger shows below desktop (tablet + mobile): the sidebar is a
+ * drawer there, persistent only on desktop.
+ */
+export const showsHamburger = (mode: TopbarLayoutMode): boolean => mode !== 'desktop';
 
 /**
  * Tracks the current layout mode from the viewport width.
