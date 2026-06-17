@@ -55,6 +55,13 @@ export const StyledWrapper = styled.header`
     }
   }
 
+  .oc-topbar__brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.1;
+  }
+
   .oc-topbar__brand-name {
     font-size: var(--oc-font-size-md);
     font-weight: 600;
@@ -62,6 +69,13 @@ export const StyledWrapper = styled.header`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .oc-topbar__brand-version {
+    font-size: var(--oc-font-size-xs);
+    color: var(--oc-colors-text-muted, var(--oc-text));
+    opacity: 0.7;
+    white-space: nowrap;
   }
 
   /* ---- Slots ---- */

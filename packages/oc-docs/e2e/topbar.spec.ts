@@ -7,16 +7,14 @@ const TABLET = { width: 820, height: 1024 };
 const MOBILE = { width: 390, height: 800 };
 
 test.describe('Topbar — mounted app', () => {
-  test('shows the "Docs" brand label (no version) and a pinned bar', async ({ page }) => {
+  test('shows brand (name + version) and a pinned bar', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
 
     const header = page.locator('header.oc-topbar');
     await expect(header).toBeVisible();
-    await expect(header.locator('.oc-topbar__brand-name')).toHaveText('Docs');
-    // Collection name is not shown in the header; version is shown in the body.
-    await expect(header.locator('.oc-topbar__brand-name')).not.toContainText('Bruno Testbench');
-    await expect(header.locator('.oc-topbar__brand-version')).toHaveCount(0);
+    await expect(header.locator('.oc-topbar__brand-name')).toContainText('Bruno Testbench');
+    await expect(header.locator('.oc-topbar__brand-version')).toHaveText('v1.0.0');
 
     // Sticky: header stays at the top after the page scrolls.
     await page.mouse.wheel(0, 600);

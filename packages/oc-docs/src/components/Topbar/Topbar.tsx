@@ -5,6 +5,7 @@ import OpenInBrunoButton from './OpenInBrunoButton';
 import MobileOverflow from './MobileOverflow';
 import { SearchIcon, HamburgerIcon, IconButton } from './icons';
 import { useTopbarLayout, showsHamburger } from './useTopbarLayout';
+import { useCanRunBrunoApp } from './useCanRunBrunoApp';
 
 export interface TopbarProps {
   collectionName: string;
@@ -31,14 +32,15 @@ export interface TopbarProps {
  * - desktop (>=1024): full bar — brand · centered search · env switcher · Open-in-Bruno.
  * - tablet (768-1023): hamburger · brand · search icon · env switcher inline (no CTA).
  * - mobile (<768): hamburger · brand · search icon · overflow popover (env) (no CTA).
- * Below desktop the search collapses to an icon that expands a full-width row,
- * and Open-in-Bruno is hidden (the Bruno desktop app only runs on desktop).
+ * Below desktop the search collapses to an icon that expands a full-width row.
  *
- * Note: `version` is accepted for cross-lane contract stability but is not
- * rendered in the header — the version is shown in the page body.
+ * Open-in-Bruno needs the desktop *layout* (>=1024) AND a device that can run
+ * the Bruno desktop app (capability check) — so a large touch tablet like the
+ * iPad Pro (1024–1366px) gets the desktop layout but no CTA.
  */
 const Topbar: React.FC<TopbarProps> = ({
   collectionName,
+  version,
   logo,
   searchSlot,
   envSwitcherSlot,
@@ -47,6 +49,7 @@ const Topbar: React.FC<TopbarProps> = ({
   onToggleSidebar,
 }) => {
   const mode = useTopbarLayout();
+  const canRunBrunoApp = useCanRunBrunoApp();
   const [searchOpen, setSearchOpen] = useState(false);
 
   const isMobile = mode === 'mobile';
@@ -72,7 +75,7 @@ const Topbar: React.FC<TopbarProps> = ({
           </IconButton>
         )}
 
-        <Brand collectionName={collectionName} logo={logo} />
+        <Brand collectionName={collectionName} version={version} logo={logo} />
 
         {/* Flex-1 middle: inline search on desktop, else a spacer that keeps the
             right-hand controls pinned to the right edge (search collapses to an
@@ -100,8 +103,9 @@ const Topbar: React.FC<TopbarProps> = ({
         )}
         {hasSecondary && isMobile && <MobileOverflow>{envSwitcherSlot}</MobileOverflow>}
 
-        {/* Open-in-Bruno is desktop-only — the Bruno desktop app isn't on tablet/mobile. */}
-        {isDesktop && hasCta && (
+        {/* Open-in-Bruno: desktop layout AND a device that can run Bruno desktop
+            (hidden on large touch tablets like iPad Pro despite their width). */}
+        {isDesktop && canRunBrunoApp && hasCta && (
           <OpenInBrunoButton href={openInBrunoHref} onClick={onOpenInBruno} />
         )}
       </div>
