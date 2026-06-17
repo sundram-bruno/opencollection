@@ -27,4 +27,14 @@ describe('Brand', () => {
     expect(html).toContain('src="/logo.svg"');
     expect(html).not.toContain('data-testid="brand-initials"');
   });
+
+  it('compact (mobile): shows the avatar + "Docs", hides name and version', () => {
+    const html = renderToStaticMarkup(
+      <Brand collectionName="Hotel Booking API" version="1.0.0" compact />
+    );
+    expect(html).toContain('data-testid="brand-initials"');
+    expect(html).toContain('Docs');
+    expect(html).not.toContain('Hotel Booking API');
+    expect(html).not.toContain('v1.0.0');
+  });
 });

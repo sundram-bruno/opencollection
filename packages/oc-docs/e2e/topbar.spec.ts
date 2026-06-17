@@ -67,6 +67,11 @@ test.describe('Topbar — mounted app', () => {
     // Open-in-Bruno is desktop-only (no Bruno desktop app on mobile).
     await expect(page.getByTestId('open-in-bruno')).toHaveCount(0);
 
+    // Compact brand: avatar + "Docs" only — no full name, no version.
+    await expect(page.locator('.oc-topbar__brand-name')).toHaveText('Docs');
+    await expect(page.locator('.oc-topbar__brand-version')).toHaveCount(0);
+    await expect(page.locator('header.oc-topbar')).not.toContainText('Bruno Testbench');
+
     // No horizontal overflow.
     const scrollW = await page.evaluate(() => document.documentElement.scrollWidth);
     expect(scrollW).toBeLessThanOrEqual(MOBILE.width + 1);

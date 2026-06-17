@@ -76,7 +76,7 @@ const Topbar: React.FC<TopbarProps> = ({
           </IconButton>
         )}
 
-        <Brand collectionName={collectionName} version={version} logo={logo} />
+        <Brand collectionName={collectionName} version={version} logo={logo} compact={isMobile} />
 
         {/* Flex-1 middle: inline search on desktop, else a spacer that keeps the
             right-hand controls pinned to the right edge (search collapses to an
