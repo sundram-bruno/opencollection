@@ -22,6 +22,28 @@ export const SearchIcon: React.FC = () => (
   </svg>
 );
 
+/** Cross — close the search palette. */
+export const CloseIcon: React.FC = () => (
+  <svg {...baseIconProps}>
+    <path d="M18 6 6 18" />
+    <path d="m6 6 12 12" />
+  </svg>
+);
+
+/** Folder outline — the search palette's folder filter options. */
+export const FolderIcon: React.FC = () => (
+  <svg {...baseIconProps} width={16} height={16}>
+    <path d="M3 7a2 2 0 0 1 2-2h3.5l2 2H19a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+  </svg>
+);
+
+/** Chevron down — the search palette's folder filter dropdown. */
+export const ChevronDownIcon: React.FC = () => (
+  <svg {...baseIconProps} width={16} height={16}>
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+);
+
 /** Three bars — Topbar sidebar (hamburger) toggle. */
 export const HamburgerIcon: React.FC = () => (
   <svg {...baseIconProps}>

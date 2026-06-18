@@ -5,6 +5,8 @@ import { Topbar } from '../Topbar';
 import Sidebar from '../Docs/Sidebar/Sidebar';
 import { PageRouter } from '../PageRouter';
 import PlaygroundDrawer from '../PlaygroundDrawer/PlaygroundDrawer';
+import { SearchTrigger, SearchModal } from '../Search';
+import { useSearchHotkey } from '../../hooks';
 import { useAppSelector } from '../../store/hooks';
 import { selectDocsCollection } from '../../store/slices/docs';
 import { selectPlaygroundCollection } from '../../store/slices/playground';
@@ -30,6 +32,13 @@ const AppShell: React.FC<AppShellProps> = ({ logo }) => {
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [playgroundItem, setPlaygroundItem] = useState<HttpRequest | Folder | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const openSearch = useCallback(() => setSearchOpen(true), []);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
+  // Global ⌘K (mac) / Ctrl+K (win/linux) — mounted here so it works regardless
+  // of the Topbar's responsive layout (the trigger pill isn't always mounted).
+  useSearchHotkey(openSearch);
 
   const activeItem = resolution?.entry.item ?? null;
   const activeType = resolution?.entry.type;
@@ -47,6 +56,7 @@ const AppShell: React.FC<AppShellProps> = ({ logo }) => {
         collectionName={collection?.info?.name || 'API Collection'}
         version={collection?.info?.version}
         logo={logo}
+        searchSlot={<SearchTrigger onOpen={openSearch} />}
         openInBrunoHref={buildBrunoDeepLink(gitCollectionUrl)}
       />
 
@@ -66,6 +76,8 @@ const AppShell: React.FC<AppShellProps> = ({ logo }) => {
         selectedItem={playgroundItem}
         onSelectItem={setPlaygroundItem}
       />
+
+      <SearchModal open={searchOpen} onClose={closeSearch} />
     </AppShellWrapper>
   );
 };
