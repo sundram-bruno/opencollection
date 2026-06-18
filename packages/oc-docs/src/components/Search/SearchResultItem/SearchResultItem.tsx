@@ -15,7 +15,9 @@ export interface SearchResultItemProps {
  * method colouring matches the sidebar and everywhere else. */
 export const SearchResultItem: React.FC<SearchResultItemProps> = ({ record, active = false, onSelect }) => (
   <ResultButton type="button" data-active={active} onClick={() => onSelect(record)}>
-    {record.method && <Method method={record.method} className="oc-search-result__badge" />}
+    {record.method && (
+      <Method method={record.method} variant="search" className="oc-search-result__badge" />
+    )}
     <span className="oc-search-result__body">
       <span className="oc-search-result__title-row">
         <span className="oc-search-result__name">{record.name}</span>

@@ -14,6 +14,19 @@ export const StyledWrapper = styled.div`
   margin-right: 8px;
   letter-spacing: 0.05em;
 
+  /* Search-result variant (BRU-3573): mono, larger radius/size per the Claude
+     Design spec. Same per-method colours (set by the .get/.post/… classes). */
+  &[data-variant='search'] {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    min-width: 38px;
+    height: 20px;
+    padding: 0 7px;
+    margin-right: 0;
+    border-radius: 5px;
+    letter-spacing: 0.04em;
+  }
+
   &.get {
     background-color: color-mix(in srgb, var(--oc-request-methods-get) 10%, transparent);
     color: var(--oc-request-methods-get);
