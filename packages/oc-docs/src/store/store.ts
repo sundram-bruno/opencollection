@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import appReducer from '@slices/app';
 import docsReducer from '@slices/docs';
 import playgroundReducer from '@slices/playground';
+import searchReducer from '@slices/search';
 import themeReducer, { persistThemeMode } from '@slices/theme';
 
 export const createOpenCollectionStore = () => {
@@ -10,6 +11,7 @@ export const createOpenCollectionStore = () => {
       app: appReducer,
       docs: docsReducer,
       playground: playgroundReducer,
+      search: searchReducer,
       theme: themeReducer,
     },
   });
