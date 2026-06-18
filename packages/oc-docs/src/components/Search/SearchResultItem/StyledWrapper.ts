@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
 /**
- * A single search result row — matches the Claude Design spec: method badge +
- * name + folder path on the first line, request URL (mono) on the second.
- * Full-width button, one click target. Theme tokens throughout.
+ * A single search result row — matches the Claude Design spec: colour-coded
+ * mono method label + name + folder path on the first line, request URL (mono)
+ * on the second. Full-width button, one click target. Theme tokens throughout.
  */
 export const ResultButton = styled.button`
   display: flex;
@@ -28,8 +28,17 @@ export const ResultButton = styled.button`
     outline-offset: -2px;
   }
 
-  .oc-search-result__badge {
+  .oc-search-result__method {
+    flex-shrink: 0;
+    display: inline-block;
+    width: 26px;
     margin-top: 1px;
+    text-align: left;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.42px;
+    color: var(--method-color);
   }
 
   .oc-search-result__body {

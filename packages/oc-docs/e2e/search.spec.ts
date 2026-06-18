@@ -107,9 +107,13 @@ test.describe('Search palette (BRU-3573)', () => {
     await page.getByRole('button', { name: 'GET', exact: true }).click();
 
     await expect(page.locator('.oc-search__list [role="option"]').first()).toBeVisible();
-    await expect(page.locator('.oc-search__results .post')).toHaveCount(0);
-    await expect(page.locator('.oc-search__results .delete')).toHaveCount(0);
-    await expect(page.locator('.oc-search__results .get').first()).toBeVisible();
+    // Every result's method label reads GET — no other method leaks through.
+    const methods = page.locator('.oc-search-result__method');
+    const count = await methods.count();
+    expect(count).toBeGreaterThan(0);
+    for (let i = 0; i < count; i++) {
+      await expect(methods.nth(i)).toHaveText('GET');
+    }
   });
 
   test('folder filter scopes results to the chosen folder', async ({ page }) => {

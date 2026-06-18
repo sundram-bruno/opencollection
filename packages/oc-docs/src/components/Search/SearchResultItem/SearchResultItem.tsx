@@ -1,5 +1,5 @@
 import React from 'react';
-import Method from '../../Docs/Method/Method';
+import { getMethodColorVar } from '../../../theme/methodColors';
 import type { SearchRecord } from '../../../utils/searchIndex';
 import { ResultButton } from './StyledWrapper';
 
@@ -11,12 +11,29 @@ export interface SearchResultItemProps {
   onSelect: (record: SearchRecord) => void;
 }
 
-/** One result row in the search palette. Reuses the shared `Method` badge so the
- * method colouring matches the sidebar and everywhere else. */
+/** Short method label, matching the design (DELETE → DEL, OPTIONS → OPT). */
+const shortMethod = (method: string): string => {
+  const m = method.toUpperCase();
+  if (m === 'DELETE') return 'DEL';
+  if (m === 'OPTIONS') return 'OPT';
+  return m;
+};
+
+/**
+ * One result row in the search palette. The method is rendered as a plain
+ * colour-coded mono label (the design's `MethodPill` text style) — not the
+ * filled sidebar badge — while still sourcing its colour from the shared
+ * `getMethodColorVar` token so methods stay consistent app-wide.
+ */
 export const SearchResultItem: React.FC<SearchResultItemProps> = ({ record, active = false, onSelect }) => (
   <ResultButton type="button" data-active={active} onClick={() => onSelect(record)}>
     {record.method && (
-      <Method method={record.method} variant="search" className="oc-search-result__badge" />
+      <span
+        className="oc-search-result__method"
+        style={{ ['--method-color' as string]: getMethodColorVar(record.method) }}
+      >
+        {shortMethod(record.method)}
+      </span>
     )}
     <span className="oc-search-result__body">
       <span className="oc-search-result__title-row">
