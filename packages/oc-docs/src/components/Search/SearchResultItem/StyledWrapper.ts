@@ -10,7 +10,7 @@ export const ResultButton = styled.button`
   align-items: flex-start;
   gap: 12px;
   width: 100%;
-  padding: 10px 14px;
+  padding: 9px 12px;
   cursor: pointer;
   text-align: left;
   background: transparent;
@@ -45,7 +45,7 @@ export const ResultButton = styled.button`
   }
 
   .oc-search-result__name {
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--oc-text);
   }

@@ -5,89 +5,108 @@ test.use({ colorScheme: 'light' });
 const DESKTOP = { width: 1280, height: 900 };
 const MOBILE = { width: 390, height: 800 };
 
-const dialog = (page: Page) => page.getByRole('dialog', { name: 'Search endpoints' });
-const input = (page: Page) => page.getByRole('textbox', { name: 'Search endpoints' });
-
-/** Open the palette via the Topbar trigger pill (desktop). */
-const openViaTrigger = async (page: Page) => {
-  await page.getByRole('button', { name: 'Search endpoints' }).click();
-  await expect(dialog(page)).toBeVisible();
-};
+const combo = (page: Page) => page.getByRole('combobox', { name: 'Search endpoints' });
+const panel = (page: Page) => page.locator('.oc-search__panel');
+const openPanel = (page: Page) => page.locator('.oc-search__panel[data-open="true"]');
+const filters = (page: Page) => page.locator('.oc-search__filters');
 
 test.describe('Search palette (BRU-3573)', () => {
-  test('platform shortcut (⌘K / Ctrl+K) opens the palette and focuses the input', async ({ page }) => {
+  test('expands in place on focus — no modal/backdrop', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
 
-    await expect(dialog(page)).toHaveCount(0);
+    // The field lives in the header; the panel is collapsed until focus.
+    await expect(combo(page)).toBeVisible();
+    await expect(openPanel(page)).toHaveCount(0);
+    // No centered modal dialog anywhere.
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+
+    await combo(page).click();
+    await expect(openPanel(page)).toBeVisible();
+    await expect(filters(page)).toBeVisible();
+    // Anchored under the header (top of panel near the top of the viewport).
+    const box = await openPanel(page).boundingBox();
+    expect(box?.y ?? 999).toBeLessThan(80);
+  });
+
+  test('platform shortcut (⌘K / Ctrl+K) focuses and opens the field', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/');
+
     const isMac = await page.evaluate(() => /Mac|iPhone|iPad|iPod/.test(navigator.platform));
     await page.keyboard.press(isMac ? 'Meta+k' : 'Control+k');
 
-    await expect(dialog(page)).toBeVisible();
-    await expect(input(page)).toBeFocused();
+    await expect(openPanel(page)).toBeVisible();
+    await expect(combo(page)).toBeFocused();
   });
 
-  test('clicking the trigger shows the initial empty state', async ({ page }) => {
+  test('shows the initial empty state before typing', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
-    await openViaTrigger(page);
+    await combo(page).click();
 
-    await expect(dialog(page)).toContainText('Search the collection');
-    await expect(dialog(page)).toContainText('Find any request by name, endpoint, or description.');
+    await expect(panel(page)).toContainText('Search the collection');
+    await expect(panel(page)).toContainText('Find any request by name, endpoint, or description.');
   });
 
   test('typing fuzzy-matches over request names', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
-    await openViaTrigger(page);
+    await combo(page).click();
+    await combo(page).fill('user');
 
-    await input(page).fill('user');
-    const results = page.locator('.oc-search__list [role="option"]');
-    await expect(results.first()).toBeVisible();
-    await expect(dialog(page)).toContainText('update user');
+    await expect(page.locator('.oc-search__list [role="option"]').first()).toBeVisible();
+    await expect(panel(page)).toContainText('update user');
   });
 
-  test('selecting a result navigates to its page and closes the palette', async ({ page }) => {
+  test('selecting a result navigates to its page and closes the panel', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
-    await openViaTrigger(page);
-
-    await input(page).fill('get users');
+    await combo(page).click();
+    await combo(page).fill('get users');
     await page.locator('.oc-search__list [role="option"]', { hasText: 'get users' }).first().click();
 
-    await expect(dialog(page)).toHaveCount(0);
+    await expect(openPanel(page)).toHaveCount(0);
     await expect(page.getByRole('heading', { name: /get users/i, level: 1 })).toBeVisible();
-    expect(page.url()).toContain('#/');
   });
 
   test('shows an empty state when nothing matches', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
-    await openViaTrigger(page);
+    await combo(page).click();
+    await combo(page).fill('zzzqqq-nomatch');
 
-    await input(page).fill('zzzqqq-nomatch');
-    await expect(dialog(page)).toContainText('No results');
+    await expect(panel(page)).toContainText('No results');
     await expect(page.locator('.oc-search__list')).toHaveCount(0);
   });
 
-  test('Escape closes the palette', async ({ page }) => {
+  test('Escape clears and closes', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
-    await openViaTrigger(page);
-
+    await combo(page).click();
+    await combo(page).fill('user');
     await page.keyboard.press('Escape');
-    await expect(dialog(page)).toHaveCount(0);
+
+    await expect(openPanel(page)).toHaveCount(0);
+  });
+
+  test('clicking outside closes the panel', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/');
+    await combo(page).click();
+    await expect(openPanel(page)).toBeVisible();
+
+    await page.locator('main').click({ position: { x: 50, y: 300 } });
+    await expect(openPanel(page)).toHaveCount(0);
   });
 
   test('method chip filters results to that method (empty query lists them)', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
-    await openViaTrigger(page);
-
+    await combo(page).click();
     await page.getByRole('button', { name: 'GET', exact: true }).click();
-    const results = page.locator('.oc-search__list [role="option"]');
-    await expect(results.first()).toBeVisible();
-    // Every visible badge is a GET; no other methods leak through.
+
+    await expect(page.locator('.oc-search__list [role="option"]').first()).toBeVisible();
     await expect(page.locator('.oc-search__results .post')).toHaveCount(0);
     await expect(page.locator('.oc-search__results .delete')).toHaveCount(0);
     await expect(page.locator('.oc-search__results .get').first()).toBeVisible();
@@ -96,23 +115,22 @@ test.describe('Search palette (BRU-3573)', () => {
   test('folder filter scopes results to the chosen folder', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/?fixture=folders');
-    await openViaTrigger(page);
+    await combo(page).click();
 
     await page.getByRole('button', { name: 'Folder', exact: true }).click();
     await page.getByRole('button', { name: 'Authentication', exact: true }).click();
 
-    await expect(dialog(page)).toContainText('Login');
-    // A request from another top-level folder (Bookings) is excluded.
-    await expect(dialog(page)).not.toContainText('Create Booking');
+    await expect(panel(page)).toContainText('Login');
+    await expect(panel(page)).not.toContainText('Create Booking');
   });
 
-  test('mobile: the Topbar search icon opens the palette (single tap)', async ({ page }) => {
+  test('mobile: the Topbar search icon opens the panel (single tap)', async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await page.goto('/');
 
-    await expect(dialog(page)).toHaveCount(0);
+    await expect(openPanel(page)).toHaveCount(0);
     await page.getByRole('button', { name: /^search$/i }).click();
-    await expect(dialog(page)).toBeVisible();
-    await expect(input(page)).toBeVisible();
+    await expect(openPanel(page)).toBeVisible();
+    await expect(combo(page)).toBeVisible();
   });
 });

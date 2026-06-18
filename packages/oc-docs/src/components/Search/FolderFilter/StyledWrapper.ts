@@ -16,14 +16,15 @@ export const FilterWrapper = styled.div`
     font-family: var(--font-sans);
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    padding: 5px 10px 5px 12px;
+    height: 28px;
+    padding: 0 8px 0 10px;
     cursor: pointer;
     color: var(--oc-colors-text-muted);
     background: transparent;
     border: 1px solid var(--oc-border-border1);
-    border-radius: var(--oc-border-radius-md);
+    border-radius: 6px;
     transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
   }
 
