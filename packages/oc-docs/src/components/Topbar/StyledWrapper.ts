@@ -52,11 +52,14 @@ export const StyledWrapper = styled.header`
     flex: 1 1 auto;
   }
 
-  /* Search row revealed under the bar when the icon is toggled (below desktop). */
+  /* Mobile-only mount point for the search slot. Its content (BRU-3573) is a
+     fixed overlay, so the row itself reserves no height — opening search must
+     not grow the sticky header or shift the page. */
   .oc-topbar__search-row {
     display: flex;
     align-items: center;
-    padding: 0 20px 10px;
+    height: 0;
+    padding: 0;
     box-sizing: border-box;
 
     .oc-topbar__search-inner {

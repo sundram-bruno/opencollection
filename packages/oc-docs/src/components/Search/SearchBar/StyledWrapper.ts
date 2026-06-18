@@ -229,6 +229,9 @@ export const SearchWrapper = styled.div`
      the brand/menu stay visible. */
   @media (max-width: 767px) {
     max-width: none;
+    /* The panel is a fixed overlay on mobile; the in-flow wrapper reserves no
+       height so revealing search doesn't grow the sticky header. */
+    height: 0;
     .oc-search__panel[data-open='true'] {
       position: fixed;
       top: 60px;

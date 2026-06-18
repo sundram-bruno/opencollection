@@ -158,6 +158,21 @@ test.describe('Search palette (BRU-3573)', () => {
     expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(MOBILE.width);
   });
 
+  test('mobile: opening search does not grow the header', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/');
+
+    const header = page.locator('header.oc-topbar');
+    const before = (await header.boundingBox())?.height ?? 0;
+
+    await page.getByRole('button', { name: /^search$/i }).click();
+    await expect(openPanel(page)).toBeVisible();
+
+    // The panel is a fixed overlay; the sticky header must not grow / shift the page.
+    const after = (await header.boundingBox())?.height ?? 0;
+    expect(after).toBe(before);
+  });
+
   test('mobile: closing search returns to just the icon (no leftover field)', async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await page.goto('/');
