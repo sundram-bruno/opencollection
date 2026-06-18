@@ -6,6 +6,7 @@ import Sidebar from '../Docs/Sidebar/Sidebar';
 import { PageRouter } from '../PageRouter';
 import PlaygroundDrawer from '../PlaygroundDrawer/PlaygroundDrawer';
 import { SearchBar } from '../Search';
+import { useSearchHotkey } from '../../hooks';
 import { useAppSelector } from '../../store/hooks';
 import { selectDocsCollection } from '../../store/slices/docs';
 import { selectPlaygroundCollection } from '../../store/slices/playground';
@@ -32,6 +33,14 @@ const AppShell: React.FC<AppShellProps> = ({ logo }) => {
   const [showDrawer, setShowDrawer] = useState(false);
   const [playgroundItem, setPlaygroundItem] = useState<HttpRequest | Folder | null>(null);
 
+  // Single source of truth for search-open, shared by the Topbar (icon + row)
+  // and the SearchBar panel so they never disagree (BRU-3573).
+  const [searchOpen, setSearchOpen] = useState(false);
+  const openSearch = useCallback(() => setSearchOpen(true), []);
+  // ⌘K (mac) / Ctrl+K — mounted here so it works regardless of the Topbar's
+  // responsive layout (below desktop the SearchBar only mounts once open).
+  useSearchHotkey(openSearch);
+
   const activeItem = resolution?.entry.item ?? null;
   const activeType = resolution?.entry.type;
   useEffect(() => {
@@ -48,7 +57,9 @@ const AppShell: React.FC<AppShellProps> = ({ logo }) => {
         collectionName={collection?.info?.name || 'API Collection'}
         version={collection?.info?.version}
         logo={logo}
-        searchSlot={<SearchBar />}
+        searchSlot={<SearchBar open={searchOpen} onOpenChange={setSearchOpen} />}
+        searchOpen={searchOpen}
+        onSearchOpenChange={setSearchOpen}
         openInBrunoHref={buildBrunoDeepLink(gitCollectionUrl)}
       />
 

@@ -10,7 +10,7 @@ const renderBar = () =>
   renderToStaticMarkup(
     <Provider store={createOpenCollectionStore()}>
       <MemoryRouter>
-        <SearchBar />
+        <SearchBar open={false} onOpenChange={() => {}} />
       </MemoryRouter>
     </Provider>,
   );

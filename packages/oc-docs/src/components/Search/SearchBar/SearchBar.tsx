@@ -10,8 +10,6 @@ import {
   type SearchRecord,
 } from '../../../utils/searchIndex';
 import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
-import { useSearchHotkey } from '../../../hooks/useSearchHotkey';
-import { useTopbarLayout } from '../../../hooks/useTopbarLayout';
 import { SearchIcon, CloseIcon } from '../../../assets/icons';
 import { MethodChips } from '../MethodChips';
 import { FolderFilter } from '../FolderFilter';
@@ -19,6 +17,13 @@ import { SearchResultItem } from '../SearchResultItem';
 import { SearchWrapper } from './StyledWrapper';
 
 const RESULTS_ID = 'oc-search-results';
+
+export interface SearchBarProps {
+  /** Open state — controlled by AppShell so it is shared with the Topbar's
+   *  below-desktop search row (one source of truth: icon, row and panel agree). */
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
 /**
  * Header-anchored endpoint search (BRU-3573). Fuzzy text search over name/url/
@@ -28,18 +33,17 @@ const RESULTS_ID = 'oc-search-results';
  * its tree; the filter chips stay local and never touch the slice.
  *
  * Expands in place (Slack-style) rather than opening a centered modal: a combobox
- * whose listbox drops directly below the field.
+ * whose listbox drops directly below the field. Open state is controlled so the
+ * Topbar search icon/row and this panel share one state (no redundant affordances).
  */
-export const SearchBar: React.FC = () => {
+export const SearchBar: React.FC<SearchBarProps> = ({ open, onOpenChange }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const model = useNavModel();
-  const mode = useTopbarLayout();
 
   const records = useMemo(() => buildSearchRecords(model.ordered), [model]);
   const folders = useMemo(() => collectTopLevelFolders(model.ordered), [model]);
 
-  const [open, setOpen] = useState(false);
   const [query, setQueryText] = useState('');
   const [methods, setMethods] = useState<Set<string>>(() => new Set());
   const [folder, setFolder] = useState<string | null>(null);
@@ -74,40 +78,28 @@ export const SearchBar: React.FC = () => {
     dispatch(setMatches(searchRecords(q, records).map((r) => r.id)));
   }, [debouncedQuery, records, dispatch]);
 
-  const openPanel = useCallback(() => {
-    setOpen(true);
-    inputRef.current?.focus();
-  }, []);
-
-  // Platform-aware ⌘K / Ctrl+K focuses (and opens) the field.
-  useSearchHotkey(openPanel);
-
-  // Below desktop the Topbar only mounts this once its search icon reveals the
-  // row — i.e. the user already tapped search — so open immediately there.
-  const autoOpened = useRef(false);
+  // Focus the field whenever the panel opens (incl. when the Topbar icon mounts
+  // this already-open below desktop, or ⌘K opens it from AppShell).
   useEffect(() => {
-    if (mode !== 'desktop' && !autoOpened.current) {
-      autoOpened.current = true;
-      openPanel();
-    }
-  }, [mode, openPanel]);
+    if (open) inputRef.current?.focus();
+  }, [open]);
 
   // Close on outside click.
   useEffect(() => {
     if (!open) return;
     const onDocMouseDown = (e: MouseEvent) => {
-      if (!wrapperRef.current?.contains(e.target as Node)) setOpen(false);
+      if (!wrapperRef.current?.contains(e.target as Node)) onOpenChange(false);
     };
     document.addEventListener('mousedown', onDocMouseDown);
     return () => document.removeEventListener('mousedown', onDocMouseDown);
-  }, [open]);
+  }, [open, onOpenChange]);
 
   const handleSelect = useCallback(
     (rec: SearchRecord) => {
       navigate(`/${rec.slug}`);
-      setOpen(false);
+      onOpenChange(false);
     },
-    [navigate],
+    [navigate, onOpenChange],
   );
 
   const toggleMethod = useCallback((method: string) => {
@@ -127,19 +119,19 @@ export const SearchBar: React.FC = () => {
   const clearAndClose = useCallback(() => {
     setQueryText('');
     clearFilters();
-    setOpen(false);
-  }, [clearFilters]);
+    onOpenChange(false);
+  }, [clearFilters, onOpenChange]);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       e.preventDefault();
       if (query || hasFilter) clearAndClose();
-      else setOpen(false);
+      else onOpenChange(false);
       return;
     }
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (!open) openPanel();
+      if (!open) onOpenChange(true);
       setActiveIdx((i) => Math.min(i + 1, results.length - 1));
       return;
     }
@@ -179,10 +171,10 @@ export const SearchBar: React.FC = () => {
             aria-label="Search endpoints"
             autoComplete="off"
             spellCheck={false}
-            onFocus={() => setOpen(true)}
+            onFocus={() => onOpenChange(true)}
             onChange={(e) => {
               setQueryText(e.target.value);
-              setOpen(true);
+              onOpenChange(true);
             }}
             onKeyDown={onKeyDown}
           />

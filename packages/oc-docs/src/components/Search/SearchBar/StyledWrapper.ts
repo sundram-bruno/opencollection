@@ -210,19 +210,28 @@ export const SearchWrapper = styled.div`
     border-radius: 6px;
   }
 
-  /* Below desktop (<1024) the Topbar collapses search to an icon that reveals a
-     full-width row (BRU-3572). The collapsed field's max-width + left-aligned
-     position there would push a centered 680px panel off-screen, so anchor the
-     panel as a full-width fixed sheet instead. */
+  /* Tablet (768–1023): the Topbar reveals a full-width search row below the bar.
+     Drop the panel as a left-aligned dropdown from that row (narrower width, no
+     centering) so it never overflows the viewport or covers the header. */
   @media (max-width: 1023px) {
     max-width: none;
     .oc-search__panel[data-open='true'] {
+      top: 0;
+      left: 0;
+      transform: none;
+      width: min(560px, calc(100vw - 40px));
+    }
+  }
+
+  /* Mobile (<768): full-width sheet, but anchored BELOW the header (not over it)
+     so the brand/menu stay visible. */
+  @media (max-width: 767px) {
+    .oc-search__panel[data-open='true'] {
       position: fixed;
-      top: 8px;
+      top: 60px;
       left: 8px;
       right: 8px;
       width: auto;
-      transform: none;
       max-height: min(70vh, calc(100vh - 96px));
     }
   }

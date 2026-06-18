@@ -136,6 +136,19 @@ test.describe('Search palette (BRU-3573)', () => {
     expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(900);
   });
 
+  test('tablet: closing search returns to just the icon (no leftover field)', async ({ page }) => {
+    await page.setViewportSize({ width: 900, height: 800 });
+    await page.goto('/');
+
+    await page.getByRole('button', { name: /^search$/i }).click();
+    await expect(combo(page)).toBeVisible();
+
+    await page.getByRole('button', { name: 'Clear search' }).click();
+    // Field + row gone; only the Topbar search icon remains (no redundant pair).
+    await expect(combo(page)).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /^search$/i })).toBeVisible();
+  });
+
   test('mobile: the Topbar search icon opens the panel (single tap)', async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await page.goto('/');
