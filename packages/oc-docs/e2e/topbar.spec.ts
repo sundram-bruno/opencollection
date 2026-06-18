@@ -88,25 +88,17 @@ test.describe('Topbar — harness (slots filled)', () => {
     await expect(page.getByTestId('open-in-bruno')).toHaveClass(/is-full/);
   });
 
-  test('tablet: hamburger + inline env, search collapsed to icon, no CTA', async ({ page }) => {
+  test('tablet: hamburger + inline search + inline env, no CTA', async ({ page }) => {
     await page.setViewportSize(TABLET);
     await page.goto('/?view=topbar-harness');
 
     await expect(page.getByRole('button', { name: /toggle sidebar/i })).toBeVisible();
     await expect(page.getByTestId('env-switcher-slot')).toBeVisible();
-    // Search is an icon (no inline input) and Open-in-Bruno is hidden below desktop.
-    await expect(page.getByTestId('search-slot-input')).toHaveCount(0);
-    await expect(page.getByRole('button', { name: /^search$/i })).toBeVisible();
-    await expect(page.getByTestId('open-in-bruno')).toHaveCount(0);
-  });
-
-  test('tablet: search icon expands the search row', async ({ page }) => {
-    await page.setViewportSize(TABLET);
-    await page.goto('/?view=topbar-harness');
-
-    await expect(page.getByTestId('search-slot-input')).toHaveCount(0);
-    await page.getByRole('button', { name: /^search$/i }).click();
+    // Inline search shows on tablet (like desktop) — no collapsed search icon.
     await expect(page.getByTestId('search-slot-input')).toBeVisible();
+    await expect(page.getByRole('button', { name: /^search$/i })).toHaveCount(0);
+    // Open-in-Bruno is hidden below desktop.
+    await expect(page.getByTestId('open-in-bruno')).toHaveCount(0);
   });
 
   test('mobile: search icon expands the search row', async ({ page }) => {

@@ -78,11 +78,11 @@ const Topbar: React.FC<TopbarProps> = ({
   const hasSecondary = envSwitcherSlot != null;
   const hasCta = openInBrunoHref != null || onOpenInBruno != null;
 
-  // Collapse the revealed search row when entering the desktop layout, so it
-  // doesn't reappear (with stale aria state) the next time search collapses.
+  // Search collapses to a mobile-only icon+row; inline on tablet/desktop. When
+  // leaving the mobile layout, close it so no stale open state lingers.
   useEffect(() => {
-    if (isDesktop) setSearchOpen(false);
-  }, [isDesktop, setSearchOpen]);
+    if (!isMobile) setSearchOpen(false);
+  }, [isMobile, setSearchOpen]);
 
   const searchInner = <div className="oc-topbar__search-inner">{searchSlot}</div>;
 
@@ -97,17 +97,16 @@ const Topbar: React.FC<TopbarProps> = ({
 
         <Brand collectionName={collectionName} version={version} logo={logo} compact={isMobile} />
 
-        {/* Flex-1 middle: inline search on desktop, else a spacer that keeps the
-            right-hand controls pinned to the right edge (search collapses to an
-            icon below desktop, and may be empty). */}
-        {hasSearch && isDesktop ? (
+        {/* Flex-1 middle: inline search on tablet + desktop; on mobile it collapses
+            to an icon and a spacer keeps the right-hand controls pinned right. */}
+        {hasSearch && !isMobile ? (
           <div className="oc-topbar__search">{searchInner}</div>
         ) : (
           <div className="oc-topbar__spacer" />
         )}
 
-        {/* Below desktop: search toggle reveals the full-width search row below. */}
-        {hasSearch && !isDesktop && (
+        {/* Mobile only: search toggle reveals the full-width search row below. */}
+        {hasSearch && isMobile && (
           <IconButton
             label="Search"
             aria-expanded={searchOpen}
@@ -130,7 +129,7 @@ const Topbar: React.FC<TopbarProps> = ({
         )}
       </div>
 
-      {hasSearch && !isDesktop && searchOpen && (
+      {hasSearch && isMobile && searchOpen && (
         <div className="oc-topbar__search-row">{searchInner}</div>
       )}
     </StyledWrapper>

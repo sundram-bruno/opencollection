@@ -124,29 +124,19 @@ test.describe('Search palette (BRU-3573)', () => {
     await expect(panel(page)).not.toContainText('Create Booking');
   });
 
-  test('tablet: the panel stays within the viewport (full-width sheet)', async ({ page }) => {
+  test('tablet: inline search field, panel stays within the viewport', async ({ page }) => {
     await page.setViewportSize({ width: 900, height: 800 });
     await page.goto('/');
 
-    await page.getByRole('button', { name: /^search$/i }).click();
-    await expect(openPanel(page)).toBeVisible();
+    // Inline field on tablet (like desktop) — no collapsed search icon.
+    await expect(combo(page)).toBeVisible();
+    await expect(page.getByRole('button', { name: /^search$/i })).toHaveCount(0);
 
+    await combo(page).click();
+    await expect(openPanel(page)).toBeVisible();
     const box = await openPanel(page).boundingBox();
     expect(box?.x ?? -1).toBeGreaterThanOrEqual(0);
     expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(900);
-  });
-
-  test('tablet: closing search returns to just the icon (no leftover field)', async ({ page }) => {
-    await page.setViewportSize({ width: 900, height: 800 });
-    await page.goto('/');
-
-    await page.getByRole('button', { name: /^search$/i }).click();
-    await expect(combo(page)).toBeVisible();
-
-    await page.getByRole('button', { name: 'Clear search' }).click();
-    // Field + row gone; only the Topbar search icon remains (no redundant pair).
-    await expect(combo(page)).toHaveCount(0);
-    await expect(page.getByRole('button', { name: /^search$/i })).toBeVisible();
   });
 
   test('mobile: the Topbar search icon opens the panel (single tap)', async ({ page }) => {
@@ -157,5 +147,18 @@ test.describe('Search palette (BRU-3573)', () => {
     await page.getByRole('button', { name: /^search$/i }).click();
     await expect(openPanel(page)).toBeVisible();
     await expect(combo(page)).toBeVisible();
+  });
+
+  test('mobile: closing search returns to just the icon (no leftover field)', async ({ page }) => {
+    await page.setViewportSize(MOBILE);
+    await page.goto('/');
+
+    await page.getByRole('button', { name: /^search$/i }).click();
+    await expect(combo(page)).toBeVisible();
+
+    await page.getByRole('button', { name: 'Clear search' }).click();
+    // Field + row gone; only the Topbar search icon remains (no redundant pair).
+    await expect(combo(page)).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /^search$/i })).toBeVisible();
   });
 });

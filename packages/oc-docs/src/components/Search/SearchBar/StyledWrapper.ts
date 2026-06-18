@@ -210,22 +210,25 @@ export const SearchWrapper = styled.div`
     border-radius: 6px;
   }
 
-  /* Tablet (768–1023): the Topbar reveals a full-width search row below the bar.
-     Drop the panel as a left-aligned dropdown from that row (narrower width, no
-     centering) so it never overflows the viewport or covers the header. */
-  @media (max-width: 1023px) {
-    max-width: none;
+  /* Tablet (768–1023): inline field like desktop, but the field sits in the
+     flex band (off screen-centre because the side controls aren't symmetric),
+     so a field-anchored 680px panel would overflow the right edge. Centre the
+     panel on the viewport instead — screen-centred and never clipped. */
+  @media (min-width: 768px) and (max-width: 1023px) {
     .oc-search__panel[data-open='true'] {
-      top: 0;
-      left: 0;
-      transform: none;
-      width: min(560px, calc(100vw - 40px));
+      position: fixed;
+      top: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(680px, calc(100vw - 32px));
+      max-height: min(454px, calc(100vh - 96px));
     }
   }
 
-  /* Mobile (<768): full-width sheet, but anchored BELOW the header (not over it)
-     so the brand/menu stay visible. */
+  /* Mobile (<768): full-width sheet, anchored BELOW the header (not over it) so
+     the brand/menu stay visible. */
   @media (max-width: 767px) {
+    max-width: none;
     .oc-search__panel[data-open='true'] {
       position: fixed;
       top: 60px;
