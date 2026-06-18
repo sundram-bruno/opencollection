@@ -6,3 +6,5 @@ export {
   type TopbarLayoutMode,
 } from './useTopbarLayout';
 export { useCanRunBrunoApp, computeCanRunBrunoApp, type DeviceEnv } from './useCanRunBrunoApp';
+export { useSearchHotkey, isMacPlatform, matchesSearchHotkey } from './useSearchHotkey';
+export { useDebouncedValue } from './useDebouncedValue';
