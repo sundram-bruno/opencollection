@@ -49,6 +49,7 @@ export const ResultButton = styled.button`
   .oc-search-result__name {
     font-size: 13px;
     font-weight: 600;
+    line-height: 1.3;
     color: var(--oc-text);
     white-space: nowrap;
     overflow: hidden;
@@ -57,6 +58,7 @@ export const ResultButton = styled.button`
 
   .oc-search-result__breadcrumb {
     font-size: 11px;
+    line-height: 1.3;
     color: var(--oc-colors-text-subtext1);
     white-space: nowrap;
     flex-shrink: 0;
@@ -65,6 +67,7 @@ export const ResultButton = styled.button`
   .oc-search-result__url {
     font-family: var(--font-mono);
     font-size: 11px;
+    line-height: 1.2;
     color: var(--oc-colors-text-subtext1);
     overflow: hidden;
     text-overflow: ellipsis;
