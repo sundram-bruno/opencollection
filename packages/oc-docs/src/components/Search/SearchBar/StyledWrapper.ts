@@ -64,6 +64,10 @@ export const SearchWrapper = styled.div`
     display: inline-flex;
     color: var(--oc-colors-text-subtext0);
   }
+  .oc-search__icon svg {
+    width: 15px;
+    height: 15px;
+  }
   .oc-search__panel[data-open='true'] .oc-search__icon {
     color: var(--oc-colors-text-subtext1);
   }
@@ -99,6 +103,10 @@ export const SearchWrapper = styled.div`
     border: 0;
     border-radius: 4px;
     color: var(--oc-colors-text-subtext1);
+  }
+  .oc-search__close svg {
+    width: 14px;
+    height: 14px;
   }
   .oc-search__close:hover {
     background: var(--oc-background-mantle);
@@ -171,6 +179,10 @@ export const SearchWrapper = styled.div`
     background: var(--oc-background-surface0);
     color: var(--oc-colors-text-subtext1);
   }
+  .oc-search__empty-icon svg {
+    width: 22px;
+    height: 22px;
+  }
   .oc-search__empty-title {
     font-size: 14px;
     font-weight: 600;
@@ -198,8 +210,11 @@ export const SearchWrapper = styled.div`
     border-radius: 6px;
   }
 
-  /* Mobile: the Topbar reveals a full-width search row — full-width sheet. */
-  @media (max-width: 767px) {
+  /* Below desktop (<1024) the Topbar collapses search to an icon that reveals a
+     full-width row (BRU-3572). The collapsed field's max-width + left-aligned
+     position there would push a centered 680px panel off-screen, so anchor the
+     panel as a full-width fixed sheet instead. */
+  @media (max-width: 1023px) {
     max-width: none;
     .oc-search__panel[data-open='true'] {
       position: fixed;

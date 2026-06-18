@@ -124,6 +124,18 @@ test.describe('Search palette (BRU-3573)', () => {
     await expect(panel(page)).not.toContainText('Create Booking');
   });
 
+  test('tablet: the panel stays within the viewport (full-width sheet)', async ({ page }) => {
+    await page.setViewportSize({ width: 900, height: 800 });
+    await page.goto('/');
+
+    await page.getByRole('button', { name: /^search$/i }).click();
+    await expect(openPanel(page)).toBeVisible();
+
+    const box = await openPanel(page).boundingBox();
+    expect(box?.x ?? -1).toBeGreaterThanOrEqual(0);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(900);
+  });
+
   test('mobile: the Topbar search icon opens the panel (single tap)', async ({ page }) => {
     await page.setViewportSize(MOBILE);
     await page.goto('/');
