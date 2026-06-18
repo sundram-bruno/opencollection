@@ -164,7 +164,7 @@ export const SearchWrapper = styled.div`
     border-radius: 14px;
   }
   .oc-search__empty-icon[data-tone='brand'] {
-    background: color-mix(in srgb, var(--oc-accents-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--oc-accents-primary) 8%, transparent);
     color: var(--oc-accents-primary);
   }
   .oc-search__empty-icon[data-tone='muted'] {
@@ -193,7 +193,7 @@ export const SearchWrapper = styled.div`
     font-size: 12px;
     font-weight: 600;
     color: var(--oc-accents-primary);
-    background: color-mix(in srgb, var(--oc-accents-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--oc-accents-primary) 8%, transparent);
     border: 0;
     border-radius: 6px;
   }

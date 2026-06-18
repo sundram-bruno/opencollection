@@ -88,7 +88,7 @@ export const FilterWrapper = styled.div`
   .oc-folder-filter__option.is-selected {
     font-weight: 600;
     color: var(--oc-accents-primary);
-    background: color-mix(in srgb, var(--oc-accents-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--oc-accents-primary) 8%, transparent);
   }
 
   .oc-folder-filter__option svg {
