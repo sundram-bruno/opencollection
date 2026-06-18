@@ -147,6 +147,11 @@ test.describe('Search palette (BRU-3573)', () => {
     await page.getByRole('button', { name: /^search$/i }).click();
     await expect(openPanel(page)).toBeVisible();
     await expect(combo(page)).toBeVisible();
+
+    // Full-width sheet pinned within the viewport (no translateX shift).
+    const box = await openPanel(page).boundingBox();
+    expect(box?.x ?? -1).toBeGreaterThanOrEqual(0);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(MOBILE.width);
   });
 
   test('mobile: closing search returns to just the icon (no leftover field)', async ({ page }) => {

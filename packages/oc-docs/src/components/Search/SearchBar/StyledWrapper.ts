@@ -235,6 +235,7 @@ export const SearchWrapper = styled.div`
       left: 8px;
       right: 8px;
       width: auto;
+      transform: none; /* reset the base translateX(-50%) — left/right pin it */
       max-height: min(70vh, calc(100vh - 96px));
     }
   }
