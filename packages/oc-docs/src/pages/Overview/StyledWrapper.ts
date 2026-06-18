@@ -7,7 +7,6 @@ import styled from '@emotion/styled';
  */
 export const OverviewWrapper = styled.div`
   max-width: 1100px;
-  margin: 0 auto;
   color: var(--text-primary);
   padding-bottom: 2rem;
   border-bottom: 1px solid var(--border-color);

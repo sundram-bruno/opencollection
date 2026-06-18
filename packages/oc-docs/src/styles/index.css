@@ -154,6 +154,7 @@ html, body {
 
   .playground-content {
     flex: 1;
+    min-width: 0;
     overflow-y: auto;
     scroll-behavior: smooth;
     padding: 0;
@@ -211,6 +212,13 @@ html, body {
 @media (max-width: 1023px) {
   .oc-playground {
     flex-direction: column;
+  }
+
+  .playground-content {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
   }
 
   .mobile-tabs {
