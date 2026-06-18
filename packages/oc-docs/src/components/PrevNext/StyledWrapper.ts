@@ -27,11 +27,12 @@ export const PrevNextWrapper = styled.nav`
   .oc-prevnext__card {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
     width: 100%;
-    min-height: 60px;
-    padding: 12px 16px;
-    border-radius: 10px;
+    /* Figma: fixed 65px tall, 14/18 padding, 8px radius (node 3990-10821). */
+    min-height: 65px;
+    padding: 14px 18px;
+    border-radius: 8px;
     border: 1px solid var(--oc-border-border1, var(--border-color));
     text-decoration: none;
     transition: border-color 0.12s ease, background-color 0.12s ease;
@@ -47,6 +48,7 @@ export const PrevNextWrapper = styled.nav`
 
   .oc-prevnext__label {
     font-size: 0.7rem;
+    line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--oc-text-muted, var(--text-secondary));
@@ -56,6 +58,7 @@ export const PrevNextWrapper = styled.nav`
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;
+    line-height: 1.2;
     font-weight: 600;
     color: var(--oc-text-primary, var(--text-primary));
   }
