@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { ChevronDownIcon, FolderIcon } from '../../../assets/icons';
 import type { FolderOption } from '../../../utils/searchIndex';
 import { FilterWrapper } from './StyledWrapper';
@@ -16,6 +16,7 @@ export interface FolderFilterProps {
 export const FolderFilter: React.FC<FolderFilterProps> = ({ folders, value, onChange }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -52,6 +53,7 @@ export const FolderFilter: React.FC<FolderFilterProps> = ({ folders, value, onCh
         className={`oc-folder-filter__button${selected ? ' is-active' : ''}`}
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-controls={open ? menuId : undefined}
         onClick={() => setOpen((p) => !p)}
       >
         {selected ? selected.name : 'Folder'}
@@ -61,7 +63,7 @@ export const FolderFilter: React.FC<FolderFilterProps> = ({ folders, value, onCh
       </button>
 
       {open && (
-        <ul className="oc-folder-filter__menu" role="listbox" aria-label="Filter by folder">
+        <ul id={menuId} className="oc-folder-filter__menu" role="listbox" aria-label="Filter by folder">
           {folders.map((folder) => (
             <li key={folder.slug} role="option" aria-selected={folder.slug === value}>
               <button

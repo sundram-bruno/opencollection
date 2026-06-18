@@ -94,14 +94,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({ open, onOpenChange }) => {
     return () => document.removeEventListener('mousedown', onDocMouseDown);
   }, [open, onOpenChange]);
 
-  const handleSelect = useCallback(
-    (rec: SearchRecord) => {
-      navigate(`/${rec.slug}`);
-      onOpenChange(false);
-    },
-    [navigate, onOpenChange],
-  );
-
   const toggleMethod = useCallback((method: string) => {
     setMethods((prev) => {
       const next = new Set(prev);
@@ -116,16 +108,26 @@ export const SearchBar: React.FC<SearchBarProps> = ({ open, onOpenChange }) => {
     setFolder(null);
   }, []);
 
-  const clearAndClose = useCallback(() => {
+  // Reset query + filters and close. Used by ✕ / Escape and after navigating to
+  // a result, so the query (and the shared slice / sidebar filter) don't linger.
+  const resetAndClose = useCallback(() => {
     setQueryText('');
     clearFilters();
     onOpenChange(false);
   }, [clearFilters, onOpenChange]);
 
+  const handleSelect = useCallback(
+    (rec: SearchRecord) => {
+      navigate(`/${rec.slug}`);
+      resetAndClose();
+    },
+    [navigate, resetAndClose],
+  );
+
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       e.preventDefault();
-      if (query || hasFilter) clearAndClose();
+      if (query || hasFilter) resetAndClose();
       else onOpenChange(false);
       return;
     }
@@ -183,7 +185,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ open, onOpenChange }) => {
               type="button"
               className="oc-search__close"
               aria-label="Clear search"
-              onClick={clearAndClose}
+              onClick={resetAndClose}
             >
               <CloseIcon />
             </button>

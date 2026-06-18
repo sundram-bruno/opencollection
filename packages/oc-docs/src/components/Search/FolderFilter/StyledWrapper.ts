@@ -98,4 +98,13 @@ export const FilterWrapper = styled.div`
   .oc-folder-filter__option.is-selected svg {
     color: var(--oc-accents-primary);
   }
+
+  /* On the mobile sheet the Folder chip can sit near the right edge; anchor the
+     menu from the right so its 180px width opens inward, not off-screen. */
+  @media (max-width: 767px) {
+    .oc-folder-filter__menu {
+      left: auto;
+      right: 0;
+    }
+  }
 `;

@@ -70,6 +70,19 @@ test.describe('Search palette (BRU-3573)', () => {
     await expect(page.getByRole('heading', { name: /get users/i, level: 1 })).toBeVisible();
   });
 
+  test('selecting a result clears the query (no lingering search/filter)', async ({ page }) => {
+    await page.setViewportSize(DESKTOP);
+    await page.goto('/');
+    await combo(page).click();
+    await combo(page).fill('get users');
+    await page.locator('.oc-search__list [role="option"]', { hasText: 'get users' }).first().click();
+
+    await expect(openPanel(page)).toHaveCount(0);
+    // Reopen — the query must have been reset on select.
+    await combo(page).click();
+    await expect(combo(page)).toHaveValue('');
+  });
+
   test('shows an empty state when nothing matches', async ({ page }) => {
     await page.setViewportSize(DESKTOP);
     await page.goto('/');
