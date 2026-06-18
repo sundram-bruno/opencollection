@@ -1,20 +1,16 @@
 import React from 'react';
 import type { PageProps } from '../../routing/types';
 import { PageWrapper } from '../../components/PageWrapper';
-import { EmptyState } from '../../components/EmptyState';
-import { GlobeIcon } from '../../assets/icons';
+import EnvironmentsView from '../../components/PlaygroundDrawer/DrawerContent/Views/EnvironmentsView/EnvironmentsView';
 
 /**
- * Environments page (BRU-3188 scaffold). The rich environments view is owned by
- * BRU-2548; until then this routes to a graceful empty state.
+ * Environments page (BRU-3188 bridge). Reuses the existing EnvironmentsView as-is
+ * so the page renders real content now; BRU-2548 swaps in the redesigned body
+ * here (~1 line). Thin wrapper — no new env logic.
  */
-export const Environments: React.FC<PageProps> = () => (
+export const Environments: React.FC<PageProps> = ({ collection }) => (
   <PageWrapper>
-    <EmptyState
-      icon={<GlobeIcon />}
-      heading="Environments"
-      subheading="The environments view is coming soon (BRU-2548)."
-    />
+    <EnvironmentsView collection={collection} />
   </PageWrapper>
 );
 
