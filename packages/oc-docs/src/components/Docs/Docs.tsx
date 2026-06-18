@@ -1,13 +1,13 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import type { OpenCollection as OpenCollectionCollection } from '@opencollection/types';
-import type { StructuredText } from '@opencollection/types/common/description';
 import Sidebar from './Sidebar/Sidebar';
 import Item from './Item/Item';
+import Overview from '../../pages/Overview';
 import { getItemId, generateSafeId } from '../../utils/itemUtils';
 import { isFolder, getItemName } from '../../utils/schemaHelpers';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { selectSelectedItemId, selectItem } from '../../store/slices/docs';
-import { useMarkdownRenderer } from '../../hooks';
+import { selectGitCollectionUrl } from '../../store/slices/app';
 
 interface DocsProps {
   docsCollection: OpenCollectionCollection | null;
@@ -22,7 +22,7 @@ const Docs: React.FC<DocsProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const selectedItemId = useAppSelector(selectSelectedItemId);
-  const md = useMarkdownRenderer();
+  const gitCollectionUrl = useAppSelector(selectGitCollectionUrl);
   const isInitialMount = useRef(true);
 
   // Scroll to selected item when it changes (but not on initial load)
@@ -115,58 +115,13 @@ const Docs: React.FC<DocsProps> = ({
       <div
         className="playground-content h-full overflow-y-auto flex-1"
       >
-        <div className="all-endpoints-view h-full overflow-y-auto" style={{ maxWidth: '100%' }}>
-          {docsCollection?.info?.name && (
-            <div
-              className="flex items-center gap-3"
-              style={{
-                maxWidth: '80rem',
-                paddingBottom: '1.5rem',
-                borderBottom: '1px solid var(--border-color)'
-              }}
-            >
-              <h1
-                className="truncate"
-                style={{
-                  color: 'var(--text-primary)',
-                  fontSize: '1.5rem',
-                  fontWeight: 600,
-                  letterSpacing: '-0.025em',
-                  lineHeight: 1.2,
-                  margin: 0
-                }}
-              >
-                {docsCollection.info.name}
-              </h1>
-            </div>
-          )}
+        {docsCollection && (
+          <Overview collection={docsCollection} />
+        )}
 
-          {/* Collection-level documentation/introduction */}
-          {docsCollection?.docs && (
-            <div
-              className="collection-docs"
-              style={{
-                maxWidth: '80rem',
-                paddingTop: '1.5rem',
-                paddingBottom: '2rem',
-                borderBottom: '1px solid var(--border-color)'
-              }}
-            >
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: md.render(
-                    typeof docsCollection.docs === 'string'
-                      ? docsCollection.docs
-                      : (docsCollection.docs as StructuredText)?.content || ''
-                  )
-                }}
-                className="markdown-documentation"
-              />
-            </div>
-          )}
-
+        {/* <div className="all-endpoints-view h-full overflow-y-auto" style={{ maxWidth: '100%' }}> */}
           {/* Render all collection items */}
-          {allItems.map((item, index) => {
+          {/* {allItems.map((item, index) => {
             const itemId = getItemId(item);
             const itemUuid = (item as any).uuid || itemId; // Use UUID if available, fallback to itemId
             const safeId = generateSafeId(itemId);
@@ -229,9 +184,9 @@ const Docs: React.FC<DocsProps> = ({
                 />
               </div>
             );
-          })}
+          })} */}
 
-          {allItems.length === 0 && (
+          {/* {allItems.length === 0 && (
             <div className="flex items-center justify-center h-64 text-gray-500 dark:text-gray-400">
               <div className="text-center">
                 <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
@@ -241,8 +196,8 @@ const Docs: React.FC<DocsProps> = ({
                 <p className="mt-1 text-sm">No endpoints or pages found in this collection.</p>
               </div>
             </div>
-          )}
-        </div>
+          )} */}
+        {/* </div> */}
       </div>
     </>
   );

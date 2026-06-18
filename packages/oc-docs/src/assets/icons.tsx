@@ -1,15 +1,7 @@
 import React from 'react';
 
-/*
- * Shared icon glyphs. NOTE (reconciliation): PR #45 also introduces
- * src/assets/icons.tsx with its own glyph set (GlobeIcon, BookIcon, …) and the
- * same `baseIconProps` constant. When the two branches merge this file will
- * conflict at the file level (both add it) — resolution is mechanical: keep one
- * copy of `baseIconProps` and the union of both icon sets (names don't overlap).
- */
-
-/** Shared stroke styling. `currentColor` lets the icon inherit the surrounding
- * theme colour, so it adapts when the theme changes. */
+/** Shared icon glyphs (Topbar + empty states). `currentColor` lets each icon
+ * inherit the surrounding theme colour, so it adapts when the theme changes. */
 const baseIconProps: React.SVGProps<SVGSVGElement> = {
   width: 20,
   height: 20,
@@ -149,5 +141,22 @@ export const BrunoGlyph: React.FC = () => (
         strokeWidth="2"
       />
     </g>
+  </svg>
+);
+
+/** Globe — empty Environments. */
+export const GlobeIcon: React.FC = () => (
+  <svg {...baseIconProps}>
+    <circle cx="12" cy="12" r="10" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
+
+/** Book — empty Overview (readme) and empty Collection Configuration. */
+export const BookIcon: React.FC = () => (
+  <svg {...baseIconProps} viewBox="0 0 20 20" strokeWidth={1.667}>
+    <path d="M3.334 16.25a2.083 2.083 0 0 1 2.083-2.083h11.25" />
+    <path d="M5.417 1.667h11.25v16.666H5.417a2.083 2.083 0 0 1-2.083-2.083V3.75a2.083 2.083 0 0 1 2.083-2.083" />
   </svg>
 );
