@@ -1,26 +1,26 @@
 import styled from '@emotion/styled';
 
 /**
- * A single search result row: method badge + name + breadcrumb on the first
- * line, request URL on the second. Full-width button so the whole row is one
- * click/tap target. Theme tokens throughout.
+ * A single search result row — matches the Claude Design spec: method badge +
+ * name + folder path on the first line, request URL (mono) on the second.
+ * Full-width button, one click target. Theme tokens throughout.
  */
 export const ResultButton = styled.button`
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 11px;
   width: 100%;
-  padding: 9px 12px;
+  padding: 9px 10px;
   cursor: pointer;
   text-align: left;
   background: transparent;
   border: 0;
-  border-radius: var(--oc-border-radius-md);
+  border-radius: 7px;
   font-family: var(--font-sans);
 
   &:hover,
   &[data-active='true'] {
-    background: var(--oc-background-surface1);
+    background: var(--oc-background-mantle);
   }
 
   &:focus-visible {
@@ -29,36 +29,43 @@ export const ResultButton = styled.button`
   }
 
   .oc-search-result__badge {
-    margin-top: 2px;
+    margin-top: 1px;
   }
 
   .oc-search-result__body {
     min-width: 0;
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
   }
 
   .oc-search-result__title-row {
     display: flex;
     align-items: baseline;
     gap: 8px;
-    flex-wrap: wrap;
   }
 
   .oc-search-result__name {
-    font-size: 0.875rem;
+    font-size: 13px;
     font-weight: 600;
     color: var(--oc-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .oc-search-result__breadcrumb {
-    font-size: 0.75rem;
-    color: var(--oc-colors-text-muted);
+    font-size: 11px;
+    color: var(--oc-colors-text-subtext1);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .oc-search-result__url {
-    margin-top: 2px;
-    font-size: 0.8125rem;
-    color: var(--oc-colors-text-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--oc-colors-text-subtext1);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

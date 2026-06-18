@@ -12,8 +12,6 @@ import {
 import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
 import { useSearchHotkey } from '../../../hooks/useSearchHotkey';
 import { useTopbarLayout } from '../../../hooks/useTopbarLayout';
-import { EmptyState } from '../../EmptyState';
-import { IconButton } from '../../IconButton';
 import { SearchIcon, CloseIcon } from '../../../assets/icons';
 import { MethodChips } from '../MethodChips';
 import { FolderFilter } from '../FolderFilter';
@@ -165,7 +163,9 @@ export const SearchBar: React.FC = () => {
     <SearchWrapper ref={wrapperRef} role="search">
       <div className="oc-search__panel" data-open={open}>
         <div className="oc-search__inputrow">
-          <SearchIcon />
+          <span className="oc-search__icon">
+            <SearchIcon />
+          </span>
           <input
             ref={inputRef}
             className="oc-search__input"
@@ -187,9 +187,14 @@ export const SearchBar: React.FC = () => {
             onKeyDown={onKeyDown}
           />
           {open && (
-            <IconButton label="Clear search" onClick={clearAndClose}>
+            <button
+              type="button"
+              className="oc-search__close"
+              aria-label="Clear search"
+              onClick={clearAndClose}
+            >
               <CloseIcon />
-            </IconButton>
+            </button>
           )}
         </div>
 
@@ -207,19 +212,31 @@ export const SearchBar: React.FC = () => {
 
             <div className="oc-search__results">
               {showInitial ? (
-                <EmptyState
-                  className="oc-search__empty"
-                  icon={<SearchIcon />}
-                  heading="Search the collection"
-                  subheading="Find any request by name, endpoint, or description."
-                />
+                <div className="oc-search__empty">
+                  <span className="oc-search__empty-icon" data-tone="brand" aria-hidden="true">
+                    <SearchIcon />
+                  </span>
+                  <p className="oc-search__empty-title">Search the collection</p>
+                  <p className="oc-search__empty-text">
+                    Find any request by name, endpoint, or description.
+                  </p>
+                </div>
               ) : results.length === 0 ? (
-                <EmptyState
-                  className="oc-search__empty"
-                  icon={<SearchIcon />}
-                  heading="No results"
-                  subheading="No endpoints match your search. Try a different term or filter."
-                />
+                <div className="oc-search__empty">
+                  <span className="oc-search__empty-icon" data-tone="muted" aria-hidden="true">
+                    <SearchIcon />
+                  </span>
+                  <p className="oc-search__empty-title">No matching requests</p>
+                  <p className="oc-search__empty-text">
+                    Nothing matches {hasQuery ? <>“<b>{query}</b>”</> : 'these filters'}. Try a
+                    different term or clear the filters.
+                  </p>
+                  {hasFilter && (
+                    <button type="button" className="oc-search__empty-clear" onClick={clearFilters}>
+                      Clear filters
+                    </button>
+                  )}
+                </div>
               ) : (
                 <ul className="oc-search__list" id={RESULTS_ID} role="listbox" aria-label="Search results">
                   {results.map((rec, i) => (

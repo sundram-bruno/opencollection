@@ -1,20 +1,19 @@
 import styled from '@emotion/styled';
 
 /**
- * In-place, header-anchored search (BRU-3573) — Slack-style. The search field
- * lives in the Topbar's searchSlot; on focus it expands into a dropdown panel
- * that drops directly below it (no centered modal, no full-page dim).
- *
- * Sizing matches the Figma "Dropdown" frame: panel width 682, radius 10
- * (--oc-border-radius-lg), 1px border in --oc-border-border2; filter row 43px.
- * The panel is absolutely positioned so opening it never reflows the header.
+ * In-place, header-anchored search (BRU-3573) — matches the Claude Design spec
+ * 1:1 (design tokens mapped to --oc-* equivalents). The collapsed field lives
+ * in the Topbar searchSlot; on focus it expands into a panel centered under the
+ * field that drops below it (no centered modal, no page dim).
  */
 export const SearchWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 36px; /* reserve the collapsed footprint so the header never reflows */
+  max-width: 430px;
+  height: 28px;
   font-family: var(--font-sans);
 
+  /* Collapsed field + expanded panel are the same element (data-open toggles). */
   .oc-search__panel {
     position: absolute;
     top: 0;
@@ -23,22 +22,23 @@ export const SearchWrapper = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    background: var(--oc-background-surface0);
+    background: var(--oc-background-mantle);
     border: 1px solid var(--oc-border-border1);
-    border-radius: var(--oc-border-radius-md);
+    border-radius: 6px;
     overflow: hidden;
   }
 
   .oc-search__panel[data-open='true'] {
-    z-index: 50;
-    width: min(682px, calc(100vw - 32px));
+    z-index: 10;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(680px, 92vw);
     max-height: min(454px, calc(100vh - 72px));
     background: var(--oc-background-base);
     border-color: var(--oc-border-border2);
-    border-radius: var(--oc-border-radius-lg);
-    box-shadow: var(--oc-dropdown-shadow);
-    padding: 1px;
-    /* visible so the folder dropdown can overhang the panel without clipping */
+    border-radius: 10px;
+    /* visible so the folder dropdown can overhang without being clipped */
     overflow: visible;
   }
 
@@ -47,20 +47,25 @@ export const SearchWrapper = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
-    height: 36px;
-    padding: 0 12px;
+    height: 28px;
+    padding: 7px 8px;
+    box-sizing: border-box;
     flex-shrink: 0;
   }
   .oc-search__panel[data-open='true'] .oc-search__inputrow {
-    height: 52px;
-    padding: 0 14px;
-    gap: 10px;
+    height: 40px;
+    padding: 0 12px;
+    gap: 9px;
     border-bottom: 1px solid var(--oc-border-border1);
   }
 
-  .oc-search__inputrow > svg {
+  .oc-search__icon {
     flex-shrink: 0;
-    color: var(--oc-colors-text-muted);
+    display: inline-flex;
+    color: var(--oc-colors-text-subtext0);
+  }
+  .oc-search__panel[data-open='true'] .oc-search__icon {
+    color: var(--oc-colors-text-subtext1);
   }
 
   .oc-search__input {
@@ -70,44 +75,67 @@ export const SearchWrapper = styled.div`
     outline: none;
     background: transparent;
     font-family: var(--font-sans);
-    font-size: 0.875rem;
+    font-size: 12px;
+    font-weight: 400;
     color: var(--oc-text);
   }
+  .oc-search__panel[data-open='true'] .oc-search__input {
+    font-size: 13px;
+  }
   .oc-search__input::placeholder {
-    color: var(--oc-colors-text-muted);
+    color: var(--oc-colors-text-subtext1);
   }
 
-  /* Filter row (open only) */
+  .oc-search__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    flex-shrink: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    color: var(--oc-colors-text-subtext1);
+  }
+  .oc-search__close:hover {
+    background: var(--oc-background-mantle);
+  }
+
+  /* Filter row */
   .oc-search__filters {
     display: flex;
     align-items: center;
-    gap: 8px;
-    height: 43px;
-    padding: 0 14px;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
     flex-shrink: 0;
     border-bottom: 1px solid var(--oc-border-border1);
   }
 
   .oc-search__clear {
     margin-left: auto;
-    padding: 4px 2px;
+    padding: 2px 4px;
     cursor: pointer;
     background: transparent;
     border: 0;
     font-family: var(--font-sans);
-    font-size: 0.8125rem;
-    color: var(--oc-colors-text-muted);
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--oc-colors-text-subtext1);
     white-space: nowrap;
   }
   .oc-search__clear:hover {
     color: var(--oc-accents-primary);
   }
 
-  /* Results (open only) */
+  /* Results */
   .oc-search__results {
-    flex: 1 1 auto;
+    max-height: 360px;
     overflow-y: auto;
-    padding: 6px;
+    padding: 4px;
   }
 
   .oc-search__list {
@@ -116,15 +144,70 @@ export const SearchWrapper = styled.div`
     padding: 0;
   }
 
+  /* Empty states (inline — the design uses a tinted rounded-square icon, not the
+     shared dashed EmptyState card). */
   .oc-search__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 34px 20px 36px;
+    gap: 4px;
+  }
+  .oc-search__empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+    border-radius: 14px;
+  }
+  .oc-search__empty-icon[data-tone='brand'] {
+    background: color-mix(in srgb, var(--oc-accents-primary) 10%, transparent);
+    color: var(--oc-accents-primary);
+  }
+  .oc-search__empty-icon[data-tone='muted'] {
+    background: var(--oc-background-surface0);
+    color: var(--oc-colors-text-subtext1);
+  }
+  .oc-search__empty-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--oc-text);
+  }
+  .oc-search__empty-text {
+    font-size: 12.5px;
+    color: var(--oc-colors-text-subtext1);
+    line-height: 1.5;
+    max-width: 320px;
+  }
+  .oc-search__empty-text b {
+    color: var(--oc-text);
+    font-weight: 500;
+  }
+  .oc-search__empty-clear {
+    margin-top: 10px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--oc-accents-primary);
+    background: color-mix(in srgb, var(--oc-accents-primary) 10%, transparent);
     border: 0;
-    min-height: 13rem;
+    border-radius: 6px;
   }
 
-  /* Mobile: the Topbar reveals a full-width search row — fill it. */
+  /* Mobile: the Topbar reveals a full-width search row — full-width sheet. */
   @media (max-width: 767px) {
+    max-width: none;
     .oc-search__panel[data-open='true'] {
-      width: 100%;
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      width: auto;
+      transform: none;
       max-height: min(70vh, calc(100vh - 96px));
     }
   }

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
 /**
- * Folder filter: a toggle button that reveals a dropdown of top-level folders.
- * Active (a folder chosen) state adopts the accent colour, matching the method
- * chips' active treatment. Theme tokens throughout.
+ * Folder filter — matches the Claude Design spec: a normal-case medium-weight
+ * pill (distinct from the uppercase mono method chips) that reveals a dropdown
+ * of top-level folders. Active state adopts the brand accent (outline + text).
  */
 export const FilterWrapper = styled.div`
   position: relative;
@@ -12,24 +12,20 @@ export const FilterWrapper = styled.div`
   .oc-folder-filter__button {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    height: 28px;
-    padding: 0 8px 0 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 3px 9px;
     cursor: pointer;
-    color: var(--oc-colors-text-muted);
+    color: var(--oc-colors-text-subtext1);
     background: transparent;
-    border: 1px solid var(--oc-border-border1);
-    border-radius: 6px;
-    transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+    border: 1px solid var(--oc-border-border2);
+    border-radius: 5px;
+    transition: border-color 0.12s ease, color 0.12s ease;
   }
 
   .oc-folder-filter__button:hover {
-    border-color: var(--oc-border-border2);
     color: var(--oc-text);
   }
 
@@ -37,7 +33,6 @@ export const FilterWrapper = styled.div`
   .oc-folder-filter__button.is-active {
     color: var(--oc-accents-primary);
     border-color: var(--oc-accents-primary);
-    background: color-mix(in srgb, var(--oc-accents-primary) 8%, transparent);
   }
 
   .oc-folder-filter__button:focus-visible {
@@ -55,47 +50,52 @@ export const FilterWrapper = styled.div`
 
   .oc-folder-filter__menu {
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% + 5px);
     left: 0;
-    z-index: 2;
-    min-width: 220px;
-    max-height: 320px;
+    z-index: 12;
+    min-width: 180px;
+    max-height: 240px;
     overflow-y: auto;
-    padding: 6px;
-    background: var(--oc-dropdown-bg);
-    border: 1px solid var(--oc-dropdown-border);
-    border-radius: var(--oc-border-radius-md);
-    box-shadow: var(--oc-dropdown-shadow);
+    padding: 4px;
+    background: var(--oc-background-base);
+    border: 1px solid var(--oc-border-border1);
+    border-radius: 8px;
   }
 
   .oc-folder-filter__option {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
-    padding: 8px 10px;
+    padding: 7px 9px;
     cursor: pointer;
     font-family: var(--font-sans);
-    font-size: 0.875rem;
+    font-size: 12.5px;
+    font-weight: 400;
     text-align: left;
-    color: var(--oc-dropdown-color);
+    color: var(--oc-text);
     background: transparent;
     border: 0;
-    border-radius: var(--oc-border-radius-sm);
+    border-radius: 5px;
   }
 
   .oc-folder-filter__option:hover,
   .oc-folder-filter__option:focus-visible {
     outline: none;
-    background: var(--oc-dropdown-hover-bg);
+    background: var(--oc-background-mantle);
   }
 
   .oc-folder-filter__option.is-selected {
-    color: var(--oc-dropdown-selected-color);
+    font-weight: 600;
+    color: var(--oc-accents-primary);
+    background: color-mix(in srgb, var(--oc-accents-primary) 10%, transparent);
   }
 
   .oc-folder-filter__option svg {
     flex-shrink: 0;
-    color: var(--oc-dropdown-icon-color);
+    color: var(--oc-colors-text-subtext1);
+  }
+  .oc-folder-filter__option.is-selected svg {
+    color: var(--oc-accents-primary);
   }
 `;

@@ -76,7 +76,7 @@ test.describe('Search palette (BRU-3573)', () => {
     await combo(page).click();
     await combo(page).fill('zzzqqq-nomatch');
 
-    await expect(panel(page)).toContainText('No results');
+    await expect(panel(page)).toContainText('No matching requests');
     await expect(page.locator('.oc-search__list')).toHaveCount(0);
   });
 
