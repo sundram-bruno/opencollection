@@ -31,6 +31,14 @@ export const getItemId = (item: any): string => {
 };
 
 /**
+ * Read the runtime uuid hydrated onto an item (see hydrateWithUUIDs). The uuid
+ * is not part of the schema type, so this typed accessor keeps callers free of
+ * `as any` casts. Returns undefined before hydration.
+ */
+export const getItemUuid = (item: OpenCollectionItem | null | undefined): string | undefined =>
+  (item as { uuid?: string } | null | undefined)?.uuid;
+
+/**
  * Generate a section ID for use in HTML elements
  * @param item The OpenCollection item
  * @param parentPath Optional parent path for nested items

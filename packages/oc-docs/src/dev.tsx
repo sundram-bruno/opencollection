@@ -16,6 +16,11 @@ import OpenCollection from './components/OpenCollection/OpenCollection';
 import { Topbar } from './components/Topbar';
 import { createOpenCollectionStore } from './store/store';
 import { sampleCollectionYaml } from './sampleCollection';
+import { foldersFixtureCollection } from './e2eFixtures/foldersCollection';
+
+// `?fixture=folders` mounts a nested-folder collection for e2e (BRU-3188).
+const fixture = new URLSearchParams(window.location.search).get('fixture');
+const devCollection = fixture === 'folders' ? foldersFixtureCollection : sampleCollectionYaml;
 
 // Ensure Prism is available globally for any code that might access it
 if (typeof window !== 'undefined') {
@@ -30,7 +35,7 @@ const DevApp: React.FC = () => {
     <Provider store={store}>
       <div style={{ height: '100vh', width: '100vw' }}>
         <OpenCollection
-          collection={sampleCollectionYaml}
+          collection={devCollection}
           gitCollectionUrl="https://github.com/usebruno/bruno-testbench.git"
         />
       </div>

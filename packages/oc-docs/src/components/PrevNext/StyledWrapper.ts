@@ -1,0 +1,66 @@
+import styled from '@emotion/styled';
+
+/**
+ * Prev/Next pagination footer. Emotion + theme tokens (no hardcoded hex) so it
+ * honours light/dark. Mirrors the shared PageWrapper gutters so it lines up
+ * with page content. Two equal halves: Previous (left) and Next (right).
+ */
+export const PrevNextWrapper = styled.nav`
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  padding: 1.5rem 3.5rem 1.25rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1.25rem 1.25rem;
+  }
+
+  .oc-prevnext__half {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+  }
+  .oc-prevnext__half--next {
+    justify-content: flex-end;
+  }
+
+  .oc-prevnext__card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    min-height: 60px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--oc-border-border1, var(--border-color));
+    text-decoration: none;
+    transition: border-color 0.12s ease, background-color 0.12s ease;
+  }
+  .oc-prevnext__card:hover {
+    border-color: var(--oc-colors-accent, var(--text-secondary));
+    background-color: color-mix(in srgb, var(--oc-text) 3%, transparent);
+  }
+  .oc-prevnext__card--next {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .oc-prevnext__label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--oc-text-muted, var(--text-secondary));
+  }
+  .oc-prevnext__name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--oc-text-primary, var(--text-primary));
+  }
+  .oc-prevnext__method {
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+`;
