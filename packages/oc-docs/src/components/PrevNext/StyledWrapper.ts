@@ -9,14 +9,16 @@ export const PrevNextWrapper = styled.nav`
   display: flex;
   align-items: stretch;
   gap: 16px;
-  /* Claude design (doc-ui.jsx Pagination): top divider + 28px gap to the cards. */
-  padding: 28px 3.5rem 20px;
+  /* Claude design (doc-ui.jsx Pagination): top divider + 28px gap to the cards.
+     Horizontal gutter comes from the page wrapper (PageRouter), so this aligns
+     with the page content above it. */
+  margin-top: 20px;
+  padding-top: 28px;
   border-top: 1px solid var(--oc-border-border1, var(--border-color));
 
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 10px;
-    padding: 20px 1.25rem 20px;
   }
 
   .oc-prevnext__half {
