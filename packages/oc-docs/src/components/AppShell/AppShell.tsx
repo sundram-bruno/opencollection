@@ -67,7 +67,7 @@ const AppShell: React.FC<AppShellProps> = ({ logo }) => {
         <aside className="oc-appshell__sidebar">
           <Sidebar />
         </aside>
-        <main className="oc-appshell__content">
+        <main className="oc-appshell__content" data-testid="app-content">
           <PageRouter onOpenPlayground={handleOpenPlayground} />
         </main>
       </div>

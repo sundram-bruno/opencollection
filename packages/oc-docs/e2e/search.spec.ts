@@ -6,9 +6,10 @@ const DESKTOP = { width: 1280, height: 900 };
 const MOBILE = { width: 390, height: 800 };
 
 const combo = (page: Page) => page.getByRole('combobox', { name: 'Search endpoints' });
-const panel = (page: Page) => page.locator('.oc-search__panel');
-const openPanel = (page: Page) => page.locator('.oc-search__panel[data-open="true"]');
-const filters = (page: Page) => page.locator('.oc-search__filters');
+const panel = (page: Page) => page.getByTestId('search-panel');
+const openPanel = (page: Page) => page.locator('[data-testid="search-panel"][data-open="true"]');
+const filters = (page: Page) => page.getByTestId('search-filters');
+const results = (page: Page) => page.getByTestId('search-result');
 
 test.describe('Search palette (BRU-3573)', () => {
   test('expands in place on focus — no modal/backdrop', async ({ page }) => {
@@ -55,7 +56,7 @@ test.describe('Search palette (BRU-3573)', () => {
     await combo(page).click();
     await combo(page).fill('user');
 
-    await expect(page.locator('.oc-search__list [role="option"]').first()).toBeVisible();
+    await expect(results(page).first()).toBeVisible();
     await expect(panel(page)).toContainText('update user');
   });
 
@@ -64,7 +65,7 @@ test.describe('Search palette (BRU-3573)', () => {
     await page.goto('/');
     await combo(page).click();
     await combo(page).fill('get users');
-    await page.locator('.oc-search__list [role="option"]', { hasText: 'get users' }).first().click();
+    await results(page).filter({ hasText: 'get users' }).first().click();
 
     await expect(openPanel(page)).toHaveCount(0);
     await expect(page.getByRole('heading', { name: /get users/i, level: 1 })).toBeVisible();
@@ -75,7 +76,7 @@ test.describe('Search palette (BRU-3573)', () => {
     await page.goto('/');
     await combo(page).click();
     await combo(page).fill('get users');
-    await page.locator('.oc-search__list [role="option"]', { hasText: 'get users' }).first().click();
+    await results(page).filter({ hasText: 'get users' }).first().click();
 
     await expect(openPanel(page)).toHaveCount(0);
     // Reopen — the query must have been reset on select.
@@ -90,7 +91,7 @@ test.describe('Search palette (BRU-3573)', () => {
     await combo(page).fill('zzzqqq-nomatch');
 
     await expect(panel(page)).toContainText('No matching requests');
-    await expect(page.locator('.oc-search__list')).toHaveCount(0);
+    await expect(page.getByTestId('search-results')).toHaveCount(0);
   });
 
   test('Escape clears and closes', async ({ page }) => {
@@ -109,7 +110,7 @@ test.describe('Search palette (BRU-3573)', () => {
     await combo(page).click();
     await expect(openPanel(page)).toBeVisible();
 
-    await page.locator('main').click({ position: { x: 50, y: 300 } });
+    await page.getByTestId('app-content').click({ position: { x: 50, y: 300 } });
     await expect(openPanel(page)).toHaveCount(0);
   });
 
@@ -119,9 +120,9 @@ test.describe('Search palette (BRU-3573)', () => {
     await combo(page).click();
     await page.getByRole('button', { name: 'GET', exact: true }).click();
 
-    await expect(page.locator('.oc-search__list [role="option"]').first()).toBeVisible();
+    await expect(results(page).first()).toBeVisible();
     // Every result's method label reads GET — no other method leaks through.
-    const methods = page.locator('.oc-search-result__method');
+    const methods = page.getByTestId('search-result-method');
     const count = await methods.count();
     expect(count).toBeGreaterThan(0);
     for (let i = 0; i < count; i++) {
@@ -175,7 +176,7 @@ test.describe('Search palette (BRU-3573)', () => {
     await page.setViewportSize(MOBILE);
     await page.goto('/');
 
-    const header = page.locator('header.oc-topbar');
+    const header = page.getByTestId('topbar');
     const before = (await header.boundingBox())?.height ?? 0;
 
     await page.getByRole('button', { name: /^search$/i }).click();

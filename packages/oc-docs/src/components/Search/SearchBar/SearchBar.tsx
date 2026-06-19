@@ -155,7 +155,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ open, onOpenChange }) => {
 
   return (
     <SearchWrapper ref={wrapperRef} role="search">
-      <div className="oc-search__panel" data-open={open}>
+      <div className="oc-search__panel" data-open={open} data-testid="search-panel">
         <div className="oc-search__inputrow">
           <span className="oc-search__icon">
             <SearchIcon />
@@ -194,7 +194,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ open, onOpenChange }) => {
 
         {open && (
           <>
-            <div className="oc-search__filters">
+            <div className="oc-search__filters" data-testid="search-filters">
               <MethodChips active={methods} onToggle={toggleMethod} />
               <FolderFilter folders={folders} value={folder} onChange={setFolder} />
               {hasFilter && (
@@ -232,7 +232,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({ open, onOpenChange }) => {
                   )}
                 </div>
               ) : (
-                <ul className="oc-search__list" id={RESULTS_ID} role="listbox" aria-label="Search results">
+                <ul
+                  className="oc-search__list"
+                  id={RESULTS_ID}
+                  role="listbox"
+                  aria-label="Search results"
+                  data-testid="search-results"
+                >
                   {results.map((rec, i) => (
                     <li key={rec.id} role="option" aria-selected={i === activeIdx}>
                       <SearchResultItem record={rec} active={i === activeIdx} onSelect={handleSelect} />

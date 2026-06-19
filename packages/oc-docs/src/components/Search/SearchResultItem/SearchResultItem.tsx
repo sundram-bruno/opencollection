@@ -26,10 +26,11 @@ const shortMethod = (method: string): string => {
  * `getMethodColorVar` token so methods stay consistent app-wide.
  */
 export const SearchResultItem: React.FC<SearchResultItemProps> = ({ record, active = false, onSelect }) => (
-  <ResultButton type="button" data-active={active} onClick={() => onSelect(record)}>
+  <ResultButton type="button" data-active={active} data-testid="search-result" onClick={() => onSelect(record)}>
     {record.method && (
       <span
         className="oc-search-result__method"
+        data-testid="search-result-method"
         style={{ ['--method-color' as string]: getMethodColorVar(record.method) }}
       >
         {shortMethod(record.method)}
