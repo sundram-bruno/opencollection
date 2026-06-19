@@ -8,11 +8,15 @@ import styled from '@emotion/styled';
 export const PrevNextWrapper = styled.nav`
   display: flex;
   align-items: stretch;
-  gap: 1rem;
-  padding: 1.5rem 3.5rem 1.25rem;
+  gap: 16px;
+  /* Claude design (doc-ui.jsx Pagination): top divider + 28px gap to the cards. */
+  padding: 28px 3.5rem 20px;
+  border-top: 1px solid var(--oc-border-border1, var(--border-color));
 
   @media (max-width: 768px) {
-    padding: 1.5rem 1.25rem 1.25rem;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 1.25rem 20px;
   }
 
   .oc-prevnext__half {
