@@ -3,12 +3,12 @@ import { Navigate } from 'react-router-dom';
 import { useActiveResolution } from '../../routing/hooks';
 import { useAppSelector } from '../../store/hooks';
 import { selectDocsCollection } from '../../store/slices/docs';
-import { PrevNext } from '../PrevNext';
+import PrevNext from '../PrevNext/PrevNext';
 import { PageRouterWrapper } from './StyledWrapper';
 import { Overview } from '../../pages/Overview';
-import Request from '../../pages/Request';
-import Environments from '../../pages/Environments';
-import Script from '../../pages/Script';
+import Request from '../../pages/Request/Request';
+import Environments from '../../pages/Environments/Environments';
+import Script from '../../pages/Script/Script';
 import type { PageProps } from '../../routing/types';
 
 interface PageRouterProps {

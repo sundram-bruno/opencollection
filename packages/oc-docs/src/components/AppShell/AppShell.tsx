@@ -3,7 +3,7 @@ import type { HttpRequest } from '@opencollection/types/requests/http';
 import type { Folder } from '@opencollection/types/collection/item';
 import { Topbar } from '../Topbar';
 import Sidebar from '../Docs/Sidebar/Sidebar';
-import { PageRouter } from '../PageRouter';
+import PageRouter from '../PageRouter/PageRouter';
 import PlaygroundDrawer from '../PlaygroundDrawer/PlaygroundDrawer';
 import { useAppSelector } from '../../store/hooks';
 import { selectDocsCollection } from '../../store/slices/docs';

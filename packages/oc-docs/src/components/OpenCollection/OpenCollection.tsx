@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 import type { OpenCollection as OpenCollectionCollection } from '@opencollection/types';
 import type { OpenCollection as IOpenCollection } from '@opencollection/types';
-import AppShell from '../AppShell';
+import AppShell from '../AppShell/AppShell';
 import { parseYaml } from '../../utils/yamlUtils';
 import { hydrateWithUUIDs } from '../../utils/items';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
