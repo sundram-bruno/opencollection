@@ -1,8 +1,8 @@
 import { test as base } from '@playwright/test';
 import { CollectionPage } from '../pages/collection.page';
-import { PageHeaderComponent } from '../components/page-header.component';
+import { PageHeaderComponent } from '../components/layout/page-header.component';
 import { ThemeToggleComponent } from '../components/theme-toggle.component';
-import { RequestPlaygroundComponent } from '../components/request-playground.component';
+import { RequestPlaygroundComponent } from '../components/request/request-playground.component';
 
 /**
  * Each page object gets a fixture, and so do the layout components the app uses

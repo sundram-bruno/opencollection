@@ -3,7 +3,7 @@ import { StyledWrapper } from './StyledWrapper';
 import Brand from './Brand/Brand';
 import MobileOverflow from './MobileOverflow/MobileOverflow';
 import OpenInBrunoButton from '../OpenInBrunoButton/OpenInBrunoButton';
-import IconButton from '../IconButton/IconButton';
+import IconButton from '../../ui/IconButton/IconButton';
 import { SearchIcon, HamburgerIcon } from '../../assets/icons';
 import { useTopbarLayout, showsHamburger } from '../../hooks/useTopbarLayout';
 import { useCanRunBrunoApp } from '../../hooks/useCanRunBrunoApp';
@@ -21,6 +21,7 @@ export interface TopbarProps {
   openInBrunoHref?: string;
   /** Invoked by the mobile hamburger; the drawer itself is BRU-3574. */
   onToggleSidebar?: () => void;
+  testId?: string;
 }
 
 /**
@@ -48,6 +49,7 @@ const Topbar: React.FC<TopbarProps> = ({
   onOpenInBruno,
   openInBrunoHref,
   onToggleSidebar,
+  testId = 'topbar',
 }) => {
   const mode = useTopbarLayout();
   const canRunBrunoApp = useCanRunBrunoApp();
@@ -68,7 +70,7 @@ const Topbar: React.FC<TopbarProps> = ({
   const searchInner = <div className="oc-topbar__search-inner">{searchSlot}</div>;
 
   return (
-    <StyledWrapper className="oc-topbar" data-mode={mode} data-testid="topbar">
+    <StyledWrapper className="oc-topbar" data-mode={mode} data-testid={testId}>
       <div className="oc-topbar__bar">
         {showsHamburger(mode) && (
           <IconButton className="oc-topbar__menu" label="Toggle sidebar" onClick={onToggleSidebar}>

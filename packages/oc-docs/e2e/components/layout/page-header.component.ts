@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { BaseComponent } from './base.component';
+import { BaseComponent } from '../base.component';
 
 /**
  * The page header (sticky top navigation bar, BRU-3572). A layout component —

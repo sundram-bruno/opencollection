@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledButton } from './StyledWrapper';
+import { StyledWrapper } from './StyledWrapper';
 
 export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Accessible label — icon buttons have no visible text. */
@@ -12,9 +12,9 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * ARIA / button props (aria-expanded, aria-haspopup, onClick…) pass through.
  */
 const IconButton: React.FC<IconButtonProps> = ({ label, children, type = 'button', ...rest }) => (
-  <StyledButton type={type} aria-label={label} {...rest}>
+  <StyledWrapper type={type} aria-label={label} {...rest}>
     {children}
-  </StyledButton>
+  </StyledWrapper>
 );
 
 export default IconButton;

@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
  * base text token (matches the design's solid icon buttons); callers can
  * override per-glyph (e.g. a muted search icon) via inline style on the child.
  */
-export const StyledButton = styled.button`
+export const StyledWrapper = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;

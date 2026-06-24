@@ -12,6 +12,8 @@ export interface BrandProps {
    * `collectionName`; the full name + version are shown in the page body.
    */
   compact?: boolean;
+  /** Root test id; the name/version derive from it (`${testId}-name` etc.). */
+  testId?: string;
 }
 
 /** Fixed product label shown beside the avatar in compact (mobile) mode. */
@@ -35,23 +37,29 @@ const formatVersion = (version: string): string => {
   return /^v/i.test(trimmed) ? trimmed : `v${trimmed}`;
 };
 
-const Brand: React.FC<BrandProps> = ({ collectionName, version, logo, compact = false }) => {
+const Brand: React.FC<BrandProps> = ({
+  collectionName,
+  version,
+  logo,
+  compact = false,
+  testId = 'brand',
+}) => {
   const hasLogo = logo != null && logo !== '';
   return (
-    <StyledWrapper className="oc-topbar__brand" data-testid="brand">
+    <StyledWrapper className="oc-topbar__brand" data-testid={testId}>
       {/* Explicit logo overrides; otherwise fall back to the initials avatar. */}
       <span className="oc-topbar__brand-logo">
         {hasLogo ? renderLogo(logo, collectionName) : <InitialsAvatar collectionName={collectionName} />}
       </span>
       {compact ? (
-        <span className="oc-topbar__brand-name" data-testid="brand-name">{PRODUCT_LABEL}</span>
+        <span className="oc-topbar__brand-name" data-testid={`${testId}-name`}>{PRODUCT_LABEL}</span>
       ) : (
         <span className="oc-topbar__brand-text">
-          <span className="oc-topbar__brand-name" data-testid="brand-name" title={collectionName}>
+          <span className="oc-topbar__brand-name" data-testid={`${testId}-name`} title={collectionName}>
             {collectionName}
           </span>
           {version && (
-            <span className="oc-topbar__brand-version" data-testid="brand-version">
+            <span className="oc-topbar__brand-version" data-testid={`${testId}-version`}>
               {formatVersion(version)}
             </span>
           )}

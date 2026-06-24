@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrunoGlyph } from '../../assets/icons';
-import { Base } from './StyledWrapper';
+import { StyledWrapper } from './StyledWrapper';
 
 export interface OpenInBrunoButtonProps {
   /** When provided, renders a real `bruno://` deep link (`<a href>`). */
@@ -10,6 +10,7 @@ export interface OpenInBrunoButtonProps {
   /** Collapse to a square icon-only control. */
   iconOnly?: boolean;
   label?: string;
+  testId?: string;
 }
 
 const OpenInBrunoButton: React.FC<OpenInBrunoButtonProps> = ({
@@ -17,6 +18,7 @@ const OpenInBrunoButton: React.FC<OpenInBrunoButtonProps> = ({
   onClick,
   iconOnly = false,
   label = 'Open in Bruno',
+  testId = 'open-in-bruno',
 }) => {
   const className = iconOnly ? 'is-icon' : 'is-full';
   // A real deep link renders an anchor (right-click-copy, accessible); without
@@ -26,16 +28,16 @@ const OpenInBrunoButton: React.FC<OpenInBrunoButtonProps> = ({
     : ({ as: 'button' as const, type: 'button' as const, onClick });
 
   return (
-    <Base
+    <StyledWrapper
       {...tagProps}
       className={className}
       aria-label={iconOnly ? label : undefined}
       title={label}
-      data-testid="open-in-bruno"
+      data-testid={testId}
     >
       <BrunoGlyph />
       {!iconOnly && <span>{label}</span>}
-    </Base>
+    </StyledWrapper>
   );
 };
 

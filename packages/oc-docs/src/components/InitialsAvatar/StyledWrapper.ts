@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
  * light and dark, matching the design, so it is intentionally not theme-tokened.
  * Mono font + tight tracking match the design's letterforms.
  */
-export const Badge = styled.span`
+export const StyledWrapper = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;

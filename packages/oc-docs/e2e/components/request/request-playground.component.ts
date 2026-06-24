@@ -1,5 +1,5 @@
 import type { Locator } from '@playwright/test';
-import { BaseComponent } from './base.component';
+import { BaseComponent } from '../base.component';
 
 /**
  * The try-it request playground: open it from an endpoint, send the request,
