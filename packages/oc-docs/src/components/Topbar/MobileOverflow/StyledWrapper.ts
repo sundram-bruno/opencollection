@@ -5,7 +5,7 @@ export const StyledWrapper = styled.div`
   position: relative;
   flex: none;
 
-  .oc-topbar__overflow-popover {
+  .topbar-overflow-popover {
     position: absolute;
     top: calc(100% + 6px);
     right: 0;

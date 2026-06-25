@@ -46,20 +46,20 @@ const Brand: React.FC<BrandProps> = ({
 }) => {
   const hasLogo = logo != null && logo !== '';
   return (
-    <StyledWrapper className="oc-topbar__brand" data-testid={testId}>
+    <StyledWrapper className="topbar-brand" data-testid={testId}>
       {/* Explicit logo overrides; otherwise fall back to the initials avatar. */}
-      <span className="oc-topbar__brand-logo">
+      <span className="topbar-brand-logo">
         {hasLogo ? renderLogo(logo, collectionName) : <InitialsAvatar collectionName={collectionName} />}
       </span>
       {compact ? (
-        <span className="oc-topbar__brand-name" data-testid={`${testId}-name`}>{PRODUCT_LABEL}</span>
+        <span className="topbar-brand-name" data-testid={`${testId}-name`}>{PRODUCT_LABEL}</span>
       ) : (
-        <span className="oc-topbar__brand-text">
-          <span className="oc-topbar__brand-name" data-testid={`${testId}-name`} title={collectionName}>
+        <span className="topbar-brand-text">
+          <span className="topbar-brand-name" data-testid={`${testId}-name`} title={collectionName}>
             {collectionName}
           </span>
           {version && (
-            <span className="oc-topbar__brand-version" data-testid={`${testId}-version`}>
+            <span className="topbar-brand-version" data-testid={`${testId}-version`}>
               {formatVersion(version)}
             </span>
           )}

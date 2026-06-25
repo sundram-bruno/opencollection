@@ -19,7 +19,7 @@ export const StyledWrapper = styled.header`
   background: var(--oc-background-base);
   border-bottom: 1px solid var(--oc-border-border1);
 
-  .oc-topbar__bar {
+  .topbar-bar {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -29,17 +29,17 @@ export const StyledWrapper = styled.header`
   }
 
   /* Mobile tightens the horizontal inset + gap (matches design). */
-  &[data-mode='mobile'] .oc-topbar__bar {
+  &[data-mode='mobile'] .topbar-bar {
     gap: 8px;
     padding: 0 12px;
   }
 
   /* Pull the hamburger toward the edge so the brand isn't over-indented. */
-  .oc-topbar__menu {
+  .topbar-menu {
     margin-left: -4px;
   }
 
-  .oc-topbar__search {
+  .topbar-search {
     display: flex;
     align-items: center;
     flex: 1 1 auto;
@@ -47,30 +47,30 @@ export const StyledWrapper = styled.header`
     justify-content: center;
   }
 
-  .oc-topbar__search-inner {
+  .topbar-search-inner {
     width: 100%;
     max-width: 440px;
   }
 
-  .oc-topbar__secondary {
+  .topbar-secondary {
     display: flex;
     align-items: center;
     gap: 12px;
     flex-shrink: 0;
   }
 
-  .oc-topbar__spacer {
+  .topbar-spacer {
     flex: 1 1 auto;
   }
 
   /* Search row revealed under the bar when the icon is toggled (below desktop). */
-  .oc-topbar__search-row {
+  .topbar-search-row {
     display: flex;
     align-items: center;
     padding: 0 20px 10px;
     box-sizing: border-box;
 
-    .oc-topbar__search-inner {
+    .topbar-search-inner {
       max-width: none;
     }
   }

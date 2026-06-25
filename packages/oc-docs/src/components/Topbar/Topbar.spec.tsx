@@ -19,6 +19,6 @@ describe('Topbar', () => {
 
   it('degrades gracefully with no slots (still renders the bar)', () => {
     const html = renderToStaticMarkup(<Topbar collectionName="Docs" />);
-    expect(html).toContain('oc-topbar__bar');
+    expect(html).toContain('topbar-bar');
   });
 });

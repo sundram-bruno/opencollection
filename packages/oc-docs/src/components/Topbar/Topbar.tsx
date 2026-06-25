@@ -67,13 +67,13 @@ const Topbar: React.FC<TopbarProps> = ({
     if (isDesktop) setSearchOpen(false);
   }, [isDesktop]);
 
-  const searchInner = <div className="oc-topbar__search-inner">{searchSlot}</div>;
+  const searchInner = <div className="topbar-search-inner">{searchSlot}</div>;
 
   return (
-    <StyledWrapper className="oc-topbar" data-mode={mode} data-testid={testId}>
-      <div className="oc-topbar__bar">
+    <StyledWrapper className="topbar" data-mode={mode} data-testid={testId}>
+      <div className="topbar-bar">
         {showsHamburger(mode) && (
-          <IconButton className="oc-topbar__menu" label="Toggle sidebar" onClick={onToggleSidebar}>
+          <IconButton className="topbar-menu" label="Toggle sidebar" onClick={onToggleSidebar}>
             <HamburgerIcon />
           </IconButton>
         )}
@@ -84,9 +84,9 @@ const Topbar: React.FC<TopbarProps> = ({
             right-hand controls pinned to the right edge (search collapses to an
             icon below desktop, and may be empty). */}
         {hasSearch && isDesktop ? (
-          <div className="oc-topbar__search">{searchInner}</div>
+          <div className="topbar-search">{searchInner}</div>
         ) : (
-          <div className="oc-topbar__spacer" />
+          <div className="topbar-spacer" />
         )}
 
         {/* Below desktop: search toggle reveals the full-width search row below. */}
@@ -102,7 +102,7 @@ const Topbar: React.FC<TopbarProps> = ({
 
         {/* Secondary controls: inline on tablet/desktop, overflow popover on mobile. */}
         {hasSecondary && !isMobile && (
-          <div className="oc-topbar__secondary">{envSwitcherSlot}</div>
+          <div className="topbar-secondary">{envSwitcherSlot}</div>
         )}
         {hasSecondary && isMobile && <MobileOverflow>{envSwitcherSlot}</MobileOverflow>}
 
@@ -114,7 +114,7 @@ const Topbar: React.FC<TopbarProps> = ({
       </div>
 
       {hasSearch && !isDesktop && searchOpen && (
-        <div className="oc-topbar__search-row">{searchInner}</div>
+        <div className="topbar-search-row">{searchInner}</div>
       )}
     </StyledWrapper>
   );

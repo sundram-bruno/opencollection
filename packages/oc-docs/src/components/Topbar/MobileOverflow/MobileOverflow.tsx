@@ -39,7 +39,7 @@ const MobileOverflow: React.FC<MobileOverflowProps> = ({ children }) => {
   }, [open]);
 
   return (
-    <StyledWrapper className="oc-topbar__overflow" ref={containerRef}>
+    <StyledWrapper className="topbar-overflow" ref={containerRef}>
       <IconButton
         label="More options"
         aria-haspopup="menu"
@@ -49,7 +49,7 @@ const MobileOverflow: React.FC<MobileOverflowProps> = ({ children }) => {
         <OverflowIcon />
       </IconButton>
       {open && (
-        <div className="oc-topbar__overflow-popover" role="menu">
+        <div className="topbar-overflow-popover" role="menu">
           {children}
         </div>
       )}

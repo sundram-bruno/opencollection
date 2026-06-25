@@ -8,7 +8,7 @@ export const StyledWrapper = styled.div`
   min-width: 0; /* allow truncation */
   flex-shrink: 0;
 
-  .oc-topbar__brand-logo {
+  .topbar-brand-logo {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -26,14 +26,14 @@ export const StyledWrapper = styled.div`
     }
   }
 
-  .oc-topbar__brand-text {
+  .topbar-brand-text {
     display: flex;
     flex-direction: column;
     min-width: 0;
     line-height: 1.1;
   }
 
-  .oc-topbar__brand-name {
+  .topbar-brand-name {
     font-size: var(--oc-font-size-md);
     font-weight: 600;
     color: var(--oc-text);
@@ -42,7 +42,7 @@ export const StyledWrapper = styled.div`
     text-overflow: ellipsis;
   }
 
-  .oc-topbar__brand-version {
+  .topbar-brand-version {
     font-size: var(--oc-font-size-xs);
     color: var(--oc-colors-text-muted, var(--oc-text));
     opacity: 0.7;
