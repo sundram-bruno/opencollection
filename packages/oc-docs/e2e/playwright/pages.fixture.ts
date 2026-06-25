@@ -4,9 +4,9 @@ import { PageHeaderComponent } from '../components/layout/page-header.component'
 import { ThemeToggleComponent } from '../components/theme-toggle.component';
 
 /**
- * Each page object gets a fixture, and so do the layout components specs drive
- * directly — e.g. `pageHeader` and `themeToggle` — so a test writes
- * `pageHeader.brandName` rather than `layout.header.brandName`.
+ * Registers the page objects and shared components as Playwright fixtures, so a
+ * spec receives a ready instance by destructuring (e.g. `{ pageHeader }`) and
+ * calls `pageHeader.brandName` directly instead of constructing it.
  */
 type Fixtures = {
   overviewPage: OverviewPage;
