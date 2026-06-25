@@ -26,5 +26,5 @@ export class PageHeaderComponent extends BaseComponent {
 
   // Sidebar (hamburger) trigger — shown below desktop. The header only renders
   // the button; the drawer it opens lives elsewhere.
-  readonly menuButton = this.root.getByRole('button', { name: /toggle sidebar/i });
+  readonly menuButton = this.root.getByTestId('topbar-menu');
 }
