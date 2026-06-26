@@ -1,10 +1,10 @@
 import type { OpenCollection } from '@opencollection/types';
 
 /**
- * E2E-only fixture: a collection WITH nested folders, so the Playwright suite
- * can exercise folder hierarchy, nested slugs, auto-expand and prev/next walks
- * (BRU-3188). The shared dev sample (sampleCollection.ts) is intentionally flat,
- * so this lives separately and is mounted via `?fixture=folders` in dev.tsx.
+ * E2E-only fixture: a collection WITH nested folders for exercising folder hierarchy,
+ * nested slugs, auto-expand, and prev/next walks. The shared dev sample
+ * (sampleCollection.ts) is intentionally flat, so this lives separately and is
+ * mounted via `?fixture=folders` in dev.tsx.
  */
 export const foldersFixtureCollection = {
   opencollection: '1.0.0',

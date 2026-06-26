@@ -8,7 +8,7 @@ import { scriptsArrayToObject } from '../../utils/schemaHelpers';
 import { formatCollectionVersion } from '../../utils/common';
 import { AUTH_MODE_LABELS } from '../../constants';
 import { CollectionStats } from '../../components/CollectionStats';
-import { EnvironmentSummary } from '../../components/EnvironmentSummary';
+import { EnvironmentSummary } from '../../components/OverviewEnvironments/EnvironmentSummary/EnvironmentSummary';
 import { CollectionConfiguration } from '../../components/CollectionConfiguration';
 import { EmptyState } from '../../components/EmptyState';
 import { PageWrapper } from '../../components/PageWrapper';
@@ -79,7 +79,7 @@ export const Overview: React.FC<OverviewProps> = ({ collection }) => {
           <div className="overview-col-left">
             <Section label="Environments" labelTestId="overview-section-label">
               {hasEnvironments ? (
-                <EnvironmentSummary environments={environments} />
+                <EnvironmentSummary environments={environments} itemTestId="overview-environment-item" />
               ) : (
                 <EmptyState
                   icon={<GlobeIcon />}
