@@ -33,14 +33,15 @@ test.describe('page-based navigation', () => {
     await page.goto(page$('bookings/lifecycle/create-booking'));
 
     const next = page.getByTestId('next-link');
-    await expect(next).toContainText('Cancel Booking');
+    await expect(next).toContainText('Confirm Booking');
     await next.click();
 
     await expect(page.getByTestId('page')).toHaveAttribute(
       'data-page-slug',
-      'bookings/lifecycle/cancel-booking'
+      'bookings/lifecycle/confirm-booking'
     );
     await expect(page.getByTestId('prev-link')).toContainText('Create Booking');
+    await expect(page.getByTestId('next-link')).toContainText('Cancel Booking');
   });
 
   test('slug URL is stable across reload', async ({ page }) => {

@@ -42,7 +42,7 @@ export const findAndUpdateItem = (
 export const hydrateWithUUIDs = (collection: OpenCollectionCollection): OpenCollectionCollection => {
   const assignUUID = (item: OpenCollectionItem): OpenCollectionItem => {
     // Generate UUID if not already present
-    const uuid = (item as any).uuid || crypto.randomUUID();
+    const uuid = (item as any).uuid || (crypto.randomUUID?.() ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`);
     
     // Create a new item with UUID
     const hydratedItem = { ...item, uuid } as any;

@@ -30,7 +30,12 @@ export const PrevNextWrapper = styled.nav`
     text-decoration: none;
     transition: border-color 0.12s ease, background-color 0.12s ease;
   }
-  .prevnext-card:hover {
+  @media (hover: hover) {
+    .prevnext-card:hover {
+      background-color: color-mix(in srgb, var(--oc-text) 6%, transparent);
+    }
+  }
+  .prevnext-card:active {
     background-color: color-mix(in srgb, var(--oc-text) 6%, transparent);
   }
 
@@ -62,7 +67,7 @@ export const PrevNextWrapper = styled.nav`
   }
   .prevnext-name {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 0.5rem;
     max-width: 100%;
     min-width: 0;
@@ -84,6 +89,7 @@ export const PrevNextWrapper = styled.nav`
     flex-shrink: 0;
     font-size: 0.7rem;
     font-weight: 700;
+    line-height: 1;
     font-family: 'Fira Code', var(--font-mono);
   }
 
@@ -104,9 +110,11 @@ export const PrevNextWrapper = styled.nav`
       gap: 6px;
     }
     .prevnext-label,
-    .prevnext-name,
-    .prevnext-method {
+    .prevnext-name {
       font-size: 12px;
+    }
+    .prevnext-method {
+      font-size: 11px;
     }
     .prevnext-name,
     .prevnext-method {

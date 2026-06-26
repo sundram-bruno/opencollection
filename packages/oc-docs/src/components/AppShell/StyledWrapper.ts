@@ -4,6 +4,8 @@ export const AppShellWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  box-sizing: border-box;
+  padding-top: 52px;
 
   .appshell-row {
     display: flex;
@@ -25,6 +27,7 @@ export const AppShellWrapper = styled.div`
     min-width: 0;
     height: 100%;
     overflow-y: auto;
+    overscroll-behavior-y: contain;
   }
 
   @media (max-width: 768px) {
