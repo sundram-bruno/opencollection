@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import type { HttpRequest } from '@opencollection/types/requests/http';
 import type { Folder } from '@opencollection/types/collection/item';
-import { Topbar } from '../Topbar';
+import Topbar from '../Topbar/Topbar';
 import Sidebar from '../Docs/Sidebar/Sidebar';
 import PageRouter from '../PageRouter/PageRouter';
 import PlaygroundDrawer from '../PlaygroundDrawer/PlaygroundDrawer';
@@ -11,7 +11,7 @@ import { selectPlaygroundCollection } from '../../store/slices/playground';
 import { selectGitCollectionUrl } from '../../store/slices/app';
 import { useActiveResolution } from '../../routing/hooks';
 import { buildBrunoDeepLink } from '../../utils/buildBrunoDeepLink';
-import { AppShellWrapper } from './StyledWrapper';
+import { StyledWrapper } from './StyledWrapper';
 
 interface AppShellProps {
   logo?: React.ReactNode;
@@ -37,7 +37,7 @@ const AppShell: React.FC<AppShellProps> = ({ logo }) => {
   const handleOpenPlayground = useCallback(() => setShowDrawer(true), []);
 
   return (
-    <AppShellWrapper className="appshell">
+    <StyledWrapper className="appshell">
       <Topbar
         collectionName={collection?.info?.name || 'API Collection'}
         version={collection?.info?.version}
@@ -61,7 +61,7 @@ const AppShell: React.FC<AppShellProps> = ({ logo }) => {
         selectedItem={playgroundItem}
         onSelectItem={setPlaygroundItem}
       />
-    </AppShellWrapper>
+    </StyledWrapper>
   );
 };
 

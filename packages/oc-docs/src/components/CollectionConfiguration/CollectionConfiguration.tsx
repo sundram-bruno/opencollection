@@ -1,10 +1,10 @@
 import React from 'react';
 import type { HttpRequestHeader } from '@opencollection/types/requests/http';
 import type { Auth } from '@opencollection/types/common/auth';
-import { Code } from '../Code';
-import { SecretValue } from '../SecretValue';
-import { SubHeading } from '../SubHeading';
-import { CollectionConfigurationWrapper } from './StyledWrapper';
+import { Code } from '../Code/Code';
+import { SecretValue } from '../SecretValue/SecretValue';
+import { SubHeading } from '../SubHeading/SubHeading';
+import { StyledWrapper } from './StyledWrapper';
 
 interface CollectionScripts {
   preRequest?: string;
@@ -92,7 +92,7 @@ export const CollectionConfiguration: React.FC<CollectionConfigurationProps> = (
   }
 
   return (
-    <CollectionConfigurationWrapper className="collection-configuration" data-testid="collection-config">
+    <StyledWrapper className="collection-configuration" data-testid="collection-config">
       <div className="config-group">
         <SubHeading testId="collection-config-subheading">Headers</SubHeading>
         {visibleHeaders.length > 0 ? (
@@ -147,7 +147,7 @@ export const CollectionConfiguration: React.FC<CollectionConfigurationProps> = (
           <EmptyMessage>Add tests to run for all requests in the collection</EmptyMessage>
         )}
       </div>
-    </CollectionConfigurationWrapper>
+    </StyledWrapper>
   );
 };
 

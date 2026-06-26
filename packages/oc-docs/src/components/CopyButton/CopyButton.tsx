@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { CopyButtonWrapper } from './StyledWrapper';
+import { StyledWrapper } from './StyledWrapper';
 
 interface CopyButtonProps {
   /** Text written to the clipboard when pressed. */
@@ -64,7 +64,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
   }, [text, resetAfterMs]);
 
   return (
-    <CopyButtonWrapper
+    <StyledWrapper
       type="button"
       className={['copy-button', className].filter(Boolean).join(' ')}
       onClick={handleCopy}
@@ -72,7 +72,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({
       data-testid={testId}
     >
       {copied ? <CheckGlyph /> : <CopyGlyph />}
-    </CopyButtonWrapper>
+    </StyledWrapper>
   );
 };
 

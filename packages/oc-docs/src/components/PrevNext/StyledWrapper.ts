@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const PrevNextWrapper = styled.nav`
+export const StyledWrapper = styled.nav`
   display: flex;
   align-items: stretch;
   gap: 16px;

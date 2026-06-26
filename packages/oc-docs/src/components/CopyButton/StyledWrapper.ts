@@ -1,10 +1,6 @@
 import styled from '@emotion/styled';
 
-/**
- * Icon-only copy button. Owns its own look (the caller decides placement), so it
- * stays reusable wherever a copy affordance is needed.
- */
-export const CopyButtonWrapper = styled.button`
+export const StyledWrapper = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;

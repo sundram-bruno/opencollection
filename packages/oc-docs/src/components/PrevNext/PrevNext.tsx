@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import type { SeqNeighbor } from '../../routing/types';
 import { getMethodColorVar } from '../../theme/methodColors';
-import { PrevNextWrapper } from './StyledWrapper';
+import { StyledWrapper } from './StyledWrapper';
 
 const toPath = (slug: string) => `/${slug}`;
 
@@ -47,12 +47,12 @@ export interface PrevNextProps {
 const PrevNext: React.FC<PrevNextProps> = ({ prev, next }) => {
   if (!prev && !next) return null;
   return (
-    <PrevNextWrapper className="prevnext" aria-label="Pagination" data-testid="prevnext">
+    <StyledWrapper className="prevnext" aria-label="Pagination" data-testid="prevnext">
       <div className="prevnext-half">{prev && <Card dir="prev" neighbor={prev} />}</div>
       <div className="prevnext-half prevnext-half--next">
         {next && <Card dir="next" neighbor={next} />}
       </div>
-    </PrevNextWrapper>
+    </StyledWrapper>
   );
 };
 

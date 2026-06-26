@@ -1,21 +1,22 @@
 import React, { useMemo } from 'react';
 import type { OpenCollection } from '@opencollection/types';
 import type { StructuredText } from '@opencollection/types/common/description';
-import { useMarkdownRenderer } from '../../hooks';
+import { useMarkdownRenderer } from '../../hooks/useMarkdownRenderer';
 import { getCollectionStats } from '../../utils/collectionStats';
 import { hasCollectionConfiguration } from '../../utils/collectionConfiguration';
 import { scriptsArrayToObject } from '../../utils/schemaHelpers';
 import { formatCollectionVersion } from '../../utils/common';
-import { AUTH_MODE_LABELS } from '../../constants';
-import { CollectionStats } from '../../components/CollectionStats';
+import { AUTH_MODE_LABELS } from '../../constants/constants';
+import { CollectionStats } from '../../components/CollectionStats/CollectionStats';
 import { EnvironmentSummary } from '../../components/OverviewEnvironments/EnvironmentSummary/EnvironmentSummary';
-import { CollectionConfiguration } from '../../components/CollectionConfiguration';
-import { EmptyState } from '../../components/EmptyState';
-import { PageWrapper } from '../../components/PageWrapper';
-import { Heading } from '../../components/Heading';
-import { Section } from '../../components/Section';
-import { GlobeIcon, BookIcon } from '../../assets/icons';
-import { OverviewWrapper } from './StyledWrapper';
+import { CollectionConfiguration } from '../../components/CollectionConfiguration/CollectionConfiguration';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
+import { PageWrapper } from '../../components/PageWrapper/PageWrapper';
+import { Heading } from '../../components/Heading/Heading';
+import { Section } from '../../components/Section/Section';
+import { GlobeIcon } from '../../assets/icons/GlobeIcon';
+import { BookIcon } from '../../assets/icons/BookIcon';
+import { StyledWrapper } from './StyledWrapper';
 
 /** Extracts the markdown string from a collection's `docs` (string or structured text). */
 const getDocsContent = (docs: OpenCollection['docs']): string => {
@@ -63,7 +64,7 @@ export const Overview: React.FC<OverviewProps> = ({ collection }) => {
 
   return (
     <PageWrapper>
-      <OverviewWrapper data-testid="overview">
+      <StyledWrapper data-testid="overview">
         <header className="overview-headline">
           <div>
             {version && <div className="overview-version" data-testid="overview-collection-version">{version}</div>}
@@ -125,7 +126,7 @@ export const Overview: React.FC<OverviewProps> = ({ collection }) => {
             </Section>
           </div>
         </div>
-      </OverviewWrapper>
+      </StyledWrapper>
     </PageWrapper>
   );
 };

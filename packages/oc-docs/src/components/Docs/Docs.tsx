@@ -2,7 +2,7 @@ import React, { useMemo, useEffect, useRef } from 'react';
 import type { OpenCollection as OpenCollectionCollection } from '@opencollection/types';
 import Sidebar from './Sidebar/Sidebar';
 import Item from './Item/Item';
-import Overview from '../../pages/Overview';
+import Overview from '../../pages/Overview/Overview';
 import { getItemId, generateSafeId } from '../../utils/itemUtils';
 import { isFolder, getItemName } from '../../utils/schemaHelpers';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionLabelWrapper } from './StyledWrapper';
+import { StyledWrapper } from './StyledWrapper';
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
@@ -17,9 +17,9 @@ interface SectionLabelProps {
  * Use `as` to render the correct heading level for the document outline.
  */
 export const SectionLabel: React.FC<SectionLabelProps> = ({ children, as = 'h2', className, testId }) => (
-  <SectionLabelWrapper as={as} className={className} data-testid={testId}>
+  <StyledWrapper as={as} className={className} data-testid={testId}>
     {children}
-  </SectionLabelWrapper>
+  </StyledWrapper>
 );
 
 export default SectionLabel;

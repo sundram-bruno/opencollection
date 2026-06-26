@@ -1,11 +1,6 @@
 import styled from '@emotion/styled';
 
-/**
- * Dashed placeholder card for an empty section: a circular icon badge stacked
- * above a heading and a supporting subheading, all centered. Styling is driven
- * entirely by the docs theme variables so it stays portable across pages.
- */
-export const EmptyStateWrapper = styled.div`
+export const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

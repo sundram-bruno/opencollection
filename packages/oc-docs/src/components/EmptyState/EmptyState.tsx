@@ -1,5 +1,5 @@
 import React from 'react';
-import { EmptyStateWrapper } from './StyledWrapper';
+import { StyledWrapper } from './StyledWrapper';
 
 interface EmptyStateProps {
   /** Icon shown in the circular badge (decorative — hidden from assistive tech). */
@@ -17,13 +17,13 @@ interface EmptyStateProps {
  * prop-driven, so it can be reused for any empty section across pages.
  */
 export const EmptyState: React.FC<EmptyStateProps> = ({ icon, heading, subheading, className }) => (
-  <EmptyStateWrapper className={className}>
+  <StyledWrapper className={className}>
     <span className="empty-state-icon" aria-hidden="true">
       {icon}
     </span>
     <p className="empty-state-heading">{heading}</p>
     <p className="empty-state-subheading">{subheading}</p>
-  </EmptyStateWrapper>
+  </StyledWrapper>
 );
 
 export default EmptyState;

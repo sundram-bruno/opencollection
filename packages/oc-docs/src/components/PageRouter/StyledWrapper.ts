@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const PageRouterWrapper = styled.div`
+export const StyledWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

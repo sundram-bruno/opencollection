@@ -4,8 +4,8 @@ import { useActiveResolution } from '../../routing/hooks';
 import { useAppSelector } from '../../store/hooks';
 import { selectDocsCollection } from '../../store/slices/docs';
 import PrevNext from '../PrevNext/PrevNext';
-import { PageRouterWrapper } from './StyledWrapper';
-import { Overview } from '../../pages/Overview';
+import { StyledWrapper } from './StyledWrapper';
+import { Overview } from '../../pages/Overview/Overview';
 import Request from '../../pages/Request/Request';
 import Environments from '../../pages/Environments/Environments';
 import type { PageProps } from '../../routing/types';
@@ -38,10 +38,10 @@ const PageRouter: React.FC<PageRouterProps> = ({ onOpenPlayground }) => {
   };
 
   return (
-    <PageRouterWrapper data-testid="page" data-page-type={entry.type} data-page-slug={entry.slug}>
+    <StyledWrapper data-testid="page" data-page-type={entry.type} data-page-slug={entry.slug}>
       <div className="page-body">{renderBody()}</div>
       <PrevNext prev={prev} next={next} />
-    </PageRouterWrapper>
+    </StyledWrapper>
   );
 };
 

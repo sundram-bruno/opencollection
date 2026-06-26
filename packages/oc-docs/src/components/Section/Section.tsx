@@ -1,6 +1,6 @@
 import React from 'react';
-import { SectionLabel } from '../SectionLabel';
-import { SectionWrapper } from './StyledWrapper';
+import { SectionLabel } from '../SectionLabel/SectionLabel';
+import { StyledWrapper } from './StyledWrapper';
 
 interface SectionProps {
   /** Heading shown above the content (rendered through `SectionLabel`). */
@@ -16,10 +16,10 @@ interface SectionProps {
  * without managing margins. Reusable across pages.
  */
 export const Section: React.FC<SectionProps> = ({ label, children, className, labelTestId }) => (
-  <SectionWrapper className={className}>
+  <StyledWrapper className={className}>
     <SectionLabel testId={labelTestId}>{label}</SectionLabel>
     {children}
-  </SectionWrapper>
+  </StyledWrapper>
 );
 
 export default Section;
