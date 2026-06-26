@@ -51,9 +51,6 @@ const createRenderer = (): MarkdownIt => {
     return defaultRender(tokens, idx, options, env, self);
   };
 
-  markdownIt.renderer.rules.table_open = () => '<div class="md-table-scroll"><table>';
-  markdownIt.renderer.rules.table_close = () => '</table></div>';
-
   return markdownIt;
 };
 

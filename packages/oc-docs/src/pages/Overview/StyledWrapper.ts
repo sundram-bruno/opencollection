@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 
-export const StyledWrapper = styled.div`
+export const OverviewWrapper = styled.div`
+  max-width: 1100px;
   color: var(--text-primary);
   padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
 
   .overview-headline {
     display: flex;
@@ -32,7 +34,7 @@ export const StyledWrapper = styled.div`
 
   @media (max-width: 1100px) {
     .overview-body {
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: 1fr;
       gap: 2rem;
     }
   }

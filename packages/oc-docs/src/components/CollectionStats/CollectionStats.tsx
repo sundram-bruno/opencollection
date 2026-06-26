@@ -1,24 +1,22 @@
 import React from 'react';
-import { Stat } from './Stat/Stat';
-import type { StatItem } from './Stat/Stat';
-import { StyledWrapper } from './StyledWrapper';
+import { Stat } from '../Stat';
+import type { StatItem } from '../Stat';
+import { CollectionStatsWrapper } from './StyledWrapper';
 
 interface CollectionStatsProps {
   stats: StatItem[];
-  testId?: string;
 }
 
-export const CollectionStats: React.FC<CollectionStatsProps> = ({ stats, testId = 'collection-stats' }) => {
-  // Each stat card's test id extends the base testId (e.g. `collection-stats-stat`).
-  const itemTestId = `${testId}-stat`;
-
-  return (
-    <StyledWrapper className="collection-stats" data-testid={testId}>
-      {stats.map((stat, index) => (
-        <Stat key={`${stat.label}-${index}`} label={stat.label} value={stat.value} testId={itemTestId} />
-      ))}
-    </StyledWrapper>
-  );
-};
+/**
+ * A row of labelled stats. Fully prop-driven (labels + values supplied by the host)
+ * and composed from the atomic `Stat` component.
+ */
+export const CollectionStats: React.FC<CollectionStatsProps> = ({ stats }) => (
+  <CollectionStatsWrapper className="collection-stats">
+    {stats.map((stat, index) => (
+      <Stat key={`${stat.label}-${index}`} label={stat.label} value={stat.value} />
+    ))}
+  </CollectionStatsWrapper>
+);
 
 export default CollectionStats;

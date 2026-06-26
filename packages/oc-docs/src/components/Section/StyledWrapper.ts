@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 
-export const StyledWrapper = styled.section`
-  /* "& + &" = a Section directly preceded by another Section. So every section after
-     the first gets a top margin — the 2rem gap sits between sections, never above the
-     first one. (Adjacent-sibling combinator, with & referencing this component.) */
+/**
+ * Wrapper for a labelled page section. Owns the spacing between consecutive
+ * sections (`& + &`) so callers can stack them without managing margins.
+ */
+export const SectionWrapper = styled.section`
   & + & {
     margin-top: 2rem;
   }

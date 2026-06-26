@@ -1,19 +1,25 @@
 import React from 'react';
-import { StyledWrapper } from './StyledWrapper';
+import { SubHeadingWrapper } from './StyledWrapper';
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 interface SubHeadingProps {
   children: React.ReactNode;
+  /** Semantic heading element to render (the visual style is the same). Defaults to "h3". */
   as?: HeadingLevel;
-  testId?: string;
   className?: string;
+  testId?: string;
 }
 
-export const SubHeading: React.FC<SubHeadingProps> = ({ children, as = 'h3', testId, className }) => (
-  <StyledWrapper as={as} className={className} data-testid={testId}>
+/**
+ * Reusable sub-heading with the shared group-title typography
+ * (Inter, Semi Bold 600, 13px, 12px line-height, 0 letter-spacing).
+ * Use `as` to render the correct heading level for the document outline.
+ */
+export const SubHeading: React.FC<SubHeadingProps> = ({ children, as = 'h3', className, testId }) => (
+  <SubHeadingWrapper as={as} className={className} data-testid={testId}>
     {children}
-  </StyledWrapper>
+  </SubHeadingWrapper>
 );
 
 export default SubHeading;

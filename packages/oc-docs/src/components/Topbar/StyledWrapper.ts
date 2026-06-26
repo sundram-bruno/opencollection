@@ -19,15 +19,6 @@ export const StyledWrapper = styled.header`
     box-sizing: border-box;
   }
 
-  &[data-mode='mobile'] .topbar-bar {
-    gap: 8px;
-    padding: 0 12px;
-  }
-
-  .topbar-menu {
-    margin-left: -4px;
-  }
-
   .topbar-search {
     display: flex;
     align-items: center;

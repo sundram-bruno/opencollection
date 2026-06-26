@@ -21,19 +21,4 @@ describe('CollectionStats', () => {
     expect(html).toContain('3');
     expect(html).toContain('Environments');
   });
-
-  it('derives each stat card test id from the base testId', () => {
-    const html = renderToStaticMarkup(
-      <CollectionStats stats={[{ label: 'Requests', value: 30 }]} testId="custom-stats" />
-    );
-    expect(html).toContain('data-testid="custom-stats"');
-    expect(html).toContain('data-testid="custom-stats-stat"');
-    expect(html).toContain('data-testid="custom-stats-stat-value"');
-  });
-
-  it('falls back to a default testId when none is given', () => {
-    const html = renderToStaticMarkup(<CollectionStats stats={[{ label: 'Requests', value: 30 }]} />);
-    expect(html).toContain('data-testid="collection-stats"');
-    expect(html).toContain('data-testid="collection-stats-stat"');
-  });
 });

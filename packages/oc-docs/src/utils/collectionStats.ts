@@ -8,6 +8,10 @@ export interface CollectionStats {
   environmentCount: number;
 }
 
+/**
+ * Counts requests and folders in a collection's item tree, recursively at every depth.
+ * Folders are identified via `isFolder`; everything else is treated as a request.
+ */
 export const countItems = (
   items: OpenCollectionItem[] | undefined
 ): { requestCount: number; folderCount: number } => {
@@ -30,7 +34,7 @@ export const countItems = (
   return { requestCount, folderCount };
 };
 
-// Summarises a collection: request, folder and environment counts.
+/** Summarises a collection: request, folder and environment counts. */
 export const getCollectionStats = (collection: OpenCollection | null | undefined): CollectionStats => {
   const { requestCount, folderCount } = countItems(collection?.items);
   return {

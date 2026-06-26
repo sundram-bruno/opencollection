@@ -8,12 +8,12 @@ export const StyledWrapper = styled.span`
   height: 26px;
   flex: none;
   border-radius: var(--oc-border-radius-base);
-  background: linear-gradient(135deg, #d37f17 0%, #dc9741 100%);
-  color: #fff;
-  font-family: var(--font-mono);
+  background: linear-gradient(135deg, var(--oc-brand), var(--oc-primary-subtle));
+  color: var(--oc-button2-color-primary-text);
+  font-family: var(--font-sans);
   font-size: var(--oc-font-size-xs);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
   user-select: none;
 `;

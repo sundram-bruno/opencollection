@@ -1,19 +1,25 @@
 import React from 'react';
-import { SectionLabel } from '../SectionLabel/SectionLabel'
-import { StyledWrapper } from './StyledWrapper';
+import { SectionLabel } from '../SectionLabel';
+import { SectionWrapper } from './StyledWrapper';
 
 interface SectionProps {
+  /** Heading shown above the content (rendered through `SectionLabel`). */
   label: React.ReactNode;
   children: React.ReactNode;
-  testId?: string;
   className?: string;
+  labelTestId?: string;
 }
 
-export const Section: React.FC<SectionProps> = ({ label, children, testId, className }) => (
-  <StyledWrapper className={className}>
-    <SectionLabel testId={testId}>{label}</SectionLabel>
+/**
+ * A labelled content section: a `SectionLabel` heading followed by its content.
+ * Owns the spacing between consecutive sections, so callers can stack them
+ * without managing margins. Reusable across pages.
+ */
+export const Section: React.FC<SectionProps> = ({ label, children, className, labelTestId }) => (
+  <SectionWrapper className={className}>
+    <SectionLabel testId={labelTestId}>{label}</SectionLabel>
     {children}
-  </StyledWrapper>
+  </SectionWrapper>
 );
 
 export default Section;

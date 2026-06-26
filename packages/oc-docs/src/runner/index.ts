@@ -60,7 +60,6 @@ export interface RunRequestResponse {
   url?: string;
   error?: string;
   errorType?: string;
-  errorTitle?: string;
   isCancel?: boolean;
   requestId?: string;
   assertionResults?: AssertionResultsResponse;
